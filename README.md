@@ -1,5 +1,19 @@
-# music_genre_detecion
-Automatic music genre detection using CRNN (Convolutional Recursive Neural Networks)
-Dataset: http://opihi.cs.uvic.ca/sound/genres.tar.gz (GTZAN)
+Music Genre Detection Project
+=============================
 
-Importing data: python import_data.py
+Automatic music genre detection using CRNN (Convolutional Recursive Neural Networks)
+
+Usage
+-----
+
+Installing prerequisites:
+
+```shell
+pip install -r requirements.txt
+```
+
+Importing data:
+
+```shell
+python import_data.py
+```
