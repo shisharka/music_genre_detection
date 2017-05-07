@@ -1,2 +1,4 @@
+keras
 numpy
 librosa
+progressbar
