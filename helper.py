@@ -12,8 +12,8 @@ DATASET_PATH = 'data/data.pkl'
 
 
 def extract_features(file_path):
-    """Loads an audio file from file_path, calculates mel spectrogram,
-    and returns log from mel spectrogram values and song duration"""
+    """Loads an audio file from file_path, calculates mel-scaled power spectrogram
+    (melspectrogram), and returns melspectrogram converted to log scale and song duration"""
     input_track, sample_rate = load(file_path, mono = True)
     features = feature.melspectrogram(input_track, sample_rate, hop_length=1024)
 
@@ -21,7 +21,7 @@ def extract_features(file_path):
 
 
 def default_input_shape(axis=None):
-    """Returns default shape of log mel spectrogram feature matrix"""
+    """Returns default shape of features matrix"""
     path = os.path.join(AUDIO_DATA_PATH, 'blues/blues.00000.au')
     temp_input, _ = extract_features(path)
 
@@ -41,7 +41,7 @@ def enforce_default_shape(features):
 
 
 def create_dataset():
-    """Creates dataset pickle file with extracted log mel spectrogram features
+    """Creates dataset pickle file with extracted log melspectrogram features
     and genre vectors. Dataset is extracted from audio files located
     in data/genres, and the pickle file path is data/data.pkl"""
     x = np.zeros((TOTAL_FILES, default_input_shape(0), default_input_shape(1)),
