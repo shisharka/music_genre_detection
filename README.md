@@ -18,7 +18,7 @@ and run the previous command again.
 
 ### Importing data
 
-For training and testing our classifier we use [GTZAN music genre collection](conda config --add channels). 
+For training and testing our classifier we use [GTZAN music genre collection](http://marsyasweb.appspot.com/download/data_sets/). 
 To download and import the dataset, run
 ```shell
 python import_data.py
