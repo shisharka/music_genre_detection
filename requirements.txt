@@ -2,3 +2,6 @@ keras
 numpy
 librosa
 progressbar
+pyacoustid
+bs4
+sklearn
