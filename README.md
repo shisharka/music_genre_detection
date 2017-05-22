@@ -9,14 +9,8 @@ Automatic music genre classifier
 In a fresh virtual environment, run
 
 ```shell
-conda install --yes --file requirements.txt
+pip install -r requirements.txt
 ```
-If you get a `PackageNotFoundError`, add conda-forge channel:
-
-```shell
-conda config --add channels conda-forge
-```
-and run the previous command again.
 
 ### Importing data
 

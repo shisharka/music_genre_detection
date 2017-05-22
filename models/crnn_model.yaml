@@ -203,11 +203,11 @@ config:
     function: !!python/tuple ["c\x01\0\0\0\x01\0\0\0\x04\0\0\0S\0\0\0s\x13\0\0\0t\0\
         \0j\x01\0|\0\0d\x01\0d\x02\0\x83\x01\x01S(\x03\0\0\0Nt\x04\0\0\0axisi\x01\0\
         \0\0(\x02\0\0\0t\x01\0\0\0Kt\x04\0\0\0mean(\x01\0\0\0t\x01\0\0\0x(\0\0\0\0\
-        (\0\0\0\0s\x13\0\0\0train_crnn_model.pyt\b\0\0\0<lambda>S\0\0\0s\0\0\0\0",
+        (\0\0\0\0s\x13\0\0\0train_crnn_model.pyt\b\0\0\0<lambda>Q\0\0\0s\0\0\0\0",
       null, null]
     function_type: lambda
     name: merged_output
     output_shape: null
     output_shape_type: raw
     trainable: true
-keras_version: 2.0.2
+keras_version: 2.0.4

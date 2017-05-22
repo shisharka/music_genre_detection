@@ -2,12 +2,12 @@
 GENRES = ['blues', 'country', 'disco', 'hiphop', 'metal', 'pop', 'reggae', 'rock']
 
 AUDIO_DATA_PATH = 'data/genres'
-TOTAL_AUDIO_FILES = 1000
+TOTAL_AUDIO_FILES = 800
 AUDIO_FILES_PER_GENRE = 100
 MELSPECTROGRAM_DATASET_PATH = 'data/melspectrogram_data.pkl'
 
 LYRICS_DATA_PATH = 'data/lyrics'
-TOTAL_LYRICS_FILES = 907
+TOTAL_LYRICS_FILES = 707
 BLUES_LYRICS_FILES = 65
 COUNTRY_LYRICS_FILES = 95
 DISCO_LYRICS_FILES = 86

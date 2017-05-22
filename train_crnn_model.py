@@ -1,7 +1,6 @@
 from keras.models import Sequential
 from keras.optimizers import Adam
-from keras.layers import Dense, Lambda, Dropout, Activation, LSTM, \
-                         TimeDistributed, Conv1D, MaxPool1D, GRU
+from keras.layers import Activation, Conv1D, MaxPool1D, Dropout, GRU, TimeDistributed, Dense, Lambda
 from sklearn.model_selection import train_test_split
 import cPickle as pickle
 import os
@@ -40,7 +39,7 @@ GRU_LAYER_SIZE = 256
 RANDOM_STATE = 1
 MODEL_ARGS = {
     'batch_size': 32,
-    'epochs': 100
+    'epochs': 20
 }
 
 
@@ -54,8 +53,7 @@ def train_model(data):
                                                         test_size=0.33,
                                                         random_state=RANDOM_STATE)
 
-    print 'Building model...'
-
+    # Building model
     model = Sequential()
 
     input_shape = (x_train.shape[1], x_train.shape[2])
@@ -86,11 +84,11 @@ def train_model(data):
 
     model.compile(
         loss='categorical_crossentropy',
-        optimizer=Adam(lr=0.00001),
-        metrics=['categorical_accuracy']
+        optimizer=Adam(lr=0.0001),
+        metrics=['accuracy']
     )
 
-    print "Training..."
+    # Training
     model.fit(x_train, y_train, validation_data=(x_val, y_val), **MODEL_ARGS)
 
     scores = model.evaluate(x_test, y_test)

@@ -4,25 +4,30 @@ import os
 import cPickle as pickle
 from dataset_config import *
 
+MEL_ARGS = {
+    'n_fft': 2048,
+    'hop_length': 1024,
+    'n_mels': 128
+}
+
 default_input_shape = (660, 128)
 
 
-def extract_features(file_path):
+def extract_features(file_path, enforce_shape=False):
     """Loads an audio file from file_path, calculates mel-scaled power spectrogram
     (melspectrogram), and returns melspectrogram converted to log scale and song duration"""
     input_track, sample_rate = load(file_path, mono = True)
-    features = feature.melspectrogram(input_track, sample_rate, hop_length=1024).T
-    print features.shape
+    features = feature.melspectrogram(input_track, sample_rate, **MEL_ARGS).T
+
+    if enforce_shape:
+        # enforcing default input shape for features
+        enforced_features = np.zeros(default_input_shape)
+        enforced_features[:features.shape[0], :] = features
+        features = enforced_features
+
+    features[features == 0] = 10**-6 # because of log scaling
 
     return np.log(features), input_track.shape[0] * 1.0 / sample_rate
-
-
-def enforce_default_shape(features):
-    """Enforcing default_input_shape as shape for argument matrix features"""
-    enforced_features = np.zeros(default_input_shape)
-    enforced_features[:features.shape[0], :] = features
-
-    return enforced_features
 
 
 def create_melspectrogram_dataset():
@@ -40,7 +45,7 @@ def create_melspectrogram_dataset():
             path = os.path.join(AUDIO_DATA_PATH, genre_name, filename)
             print 'Processing', filename
             file_index = genre_index * AUDIO_FILES_PER_GENRE + i
-            x[file_index] = enforce_default_shape(extract_features(path)[0])
+            x[file_index] = extract_features(path, enforce_shape=True)[0]
             y[file_index, genre_index] = 1
 
     with open(MELSPECTROGRAM_DATASET_PATH, 'w') as melspectrogram_dataset:

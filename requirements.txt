@@ -1,3 +1,4 @@
+tensorflow
 keras
 numpy
 librosa
@@ -5,3 +6,4 @@ progressbar
 pyacoustid
 bs4
 sklearn
+h5py
