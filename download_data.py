@@ -41,11 +41,14 @@ def extract(compressed_filename, destination_path):
     print 'Removing {}...'.format(compressed_filename)
     os.remove(compressed_filename)
 
-
+# Download and extract raw audio data
 download(audio_url, audio_filename)
-
 extract(audio_filename, AUDIO_DATA_PATH)
 
-download(lyrics_url, lyrics_filename)
+print 'Removing jazz and classical directories...'
+remove_dir(AUDIO_DATA_PATH + '/jazz')
+remove_dir(AUDIO_DATA_PATH + '/classical')
 
+# Download and extract raw lyrics data
+download(lyrics_url, lyrics_filename)
 extract(lyrics_filename, LYRICS_DATA_PATH)

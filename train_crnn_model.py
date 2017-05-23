@@ -9,7 +9,7 @@ from keras import backend as K
 import matplotlib.pyplot as plt
 from dataset_config import GENRES
 
-CONV_LAYERS_COUNT = 3
+CONV_LAYERS_COUNT = 5
 CONV_ARGS = [{
         'kernel_size': 11,
         'strides': 4,
@@ -38,7 +38,7 @@ CONV_ARGS = [{
     }
 ]
 GRU_LAYER_SIZE = 256
-RANDOM_STATE = 1
+RANDOM_STATE = 3
 MODEL_ARGS = {
     'batch_size': 32,
     'epochs': 100
@@ -60,21 +60,21 @@ def train_model(data):
 
     input_shape = (x_train.shape[1], x_train.shape[2])
 
-    model.add(Conv1D(input_shape=input_shape, **CONV_ARGS[1]))
+    model.add(Conv1D(input_shape=input_shape, **CONV_ARGS[0]))
     model.add(Activation('relu'))
-    model.add(MaxPool1D(2))
-    print(model.output.shape)
+    print model.output.shape
 
     for i in range(1, CONV_LAYERS_COUNT):
-        model.add(Conv1D(**CONV_ARGS[1]))
+        model.add(Conv1D(**CONV_ARGS[i]))
         model.add(Activation('relu'))
         if i < 3:
             model.add(MaxPool1D(2))
-        print(model.output.shape)
+        print model.output.shape
 
-    model.add(Dropout(0.5))
+    model.add(MaxPool1D(2))
+    # model.add(Dropout(0.5))
     model.add(GRU(GRU_LAYER_SIZE, return_sequences=True))
-    model.add(Dropout(0.5))
+    # model.add(Dropout(0.5))
     model.add(TimeDistributed(Dense(len(GENRES))))
     model.add(Activation('softmax', name='realtime_output'))
 

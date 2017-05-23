@@ -59,17 +59,6 @@ def parse_lyrics(url, selector='div', selector_class=None, selector_id=None):
         return None
 
 
-# for filename, metadata in metadatas.items():
-#     track = filename[:-3]
-#     path = 'data/lyrics/' + track + '.txt'
-#     lyrics = get_lyrics(metadata['artist'], metadata['title'])
-#     if not lyrics:
-#         print "Couldn't find lyrics for " + filename
-#     else:
-#         with codecs.open(path, 'w', 'utf-8') as lyrics_file:
-#             lyrics_file.write(lyrics)
-
-
 def get_lyrics(artist, song_title):
     azlyrics    = parse_lyrics(azlyrics_url(artist, song_title))
     metrolyrics = parse_lyrics(metrolyrics_url(artist, song_title),
@@ -81,23 +70,23 @@ def get_lyrics(artist, song_title):
     return azlyrics or metrolyrics or oldielyrics
 
 
-def test():
-    a = []
-    with open('unknown_lyrics.txt') as file:
-        arr_content = file.readlines()
-        for eachline in arr_content:
-            a.append(eachline.strip())
+# def test():
+#     a = []
+#     with open('unknown_lyrics.txt') as file:
+#         arr_content = file.readlines()
+#         for eachline in arr_content:
+#             a.append(eachline.strip())
 
-    with open('metadata.json') as metadata_file:
-        metadatas = json.load(metadata_file)
+#     with open('metadata.json') as metadata_file:
+#         metadatas = json.load(metadata_file)
 
-        for filename, metadata in metadatas.items():
-            if (filename in a):
-                track = filename[:-3]
-                path = 'data/lyrics/' + track + '.txt'
-                lyrics = get_lyrics(metadata['artist'], metadata['title'])
-                if not lyrics:
-                    print(filename + '------>' + metadata['title'] + ' by ' + metadata['artist'])
-                else:
-                    with codecs.open(path, 'w', 'utf-8') as lyrics_file:
-                        lyrics_file.write(lyrics)
+#         for filename, metadata in metadatas.items():
+#             if (filename in a):
+#                 track = filename[:-3]
+#                 path = 'data/lyrics/' + track + '.txt'
+#                 lyrics = get_lyrics(metadata['artist'], metadata['title'])
+#                 if not lyrics:
+#                     print(filename + '------>' + metadata['title'] + ' by ' + metadata['artist'])
+#                 else:
+#                     with codecs.open(path, 'w', 'utf-8') as lyrics_file:
+#                         lyrics_file.write(lyrics)
