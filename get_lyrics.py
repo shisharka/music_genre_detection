@@ -50,7 +50,7 @@ def parse_lyrics(url, selector='div', selector_class=None, selector_id=None):
         lyrics_tags = soup.find_all(selector,
                                     attrs={'class': selector_class,
                                            'id': selector_id})
-        lyrics = [tag.getText().replace('<br>', '') for tag in lyrics_tags]
+        lyrics = [re.sub('<[a-z]*?>', '', tag.getText()) for tag in lyrics_tags]
 
         return "\n".join(lyrics).strip()
     except Exception as e:
@@ -70,6 +70,17 @@ def parse_lyrics(url, selector='div', selector_class=None, selector_id=None):
 #             lyrics_file.write(lyrics)
 
 
+def get_lyrics(artist, song_title):
+    azlyrics    = parse_lyrics(azlyrics_url(artist, song_title))
+    metrolyrics = parse_lyrics(metrolyrics_url(artist, song_title),
+                               selector='p',
+                               selector_class='verse')
+    oldielyrics = parse_lyrics(oldielyrics_url(artist, song_title),
+                               selector_class='lyrics')
+
+    return azlyrics or metrolyrics or oldielyrics
+
+
 def test():
     a = []
     with open('unknown_lyrics.txt') as file:
@@ -86,7 +97,7 @@ def test():
                 path = 'data/lyrics/' + track + '.txt'
                 lyrics = get_lyrics(metadata['artist'], metadata['title'])
                 if not lyrics:
-                    print filename + '------>' + metadata['title'] + ' by ' + metadata['artist']
+                    print(filename + '------>' + metadata['title'] + ' by ' + metadata['artist'])
                 else:
                     with codecs.open(path, 'w', 'utf-8') as lyrics_file:
                         lyrics_file.write(lyrics)

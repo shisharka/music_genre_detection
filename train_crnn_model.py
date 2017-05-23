@@ -1,13 +1,15 @@
 from keras.models import Sequential
 from keras.optimizers import Adam
-from keras.layers import Activation, Conv1D, MaxPool1D, Dropout, GRU, TimeDistributed, Dense, Lambda
+from keras.layers import Activation, Conv1D, MaxPool1D, Dropout, \
+                         GRU, TimeDistributed, Dense, Lambda
 from sklearn.model_selection import train_test_split
-import cPickle as pickle
+import pickle
 import os
 from keras import backend as K
-from helper import GENRES
+import matplotlib.pyplot as plt
+from dataset_config import GENRES
 
-CONV_LAYERS_COUNT = 5
+CONV_LAYERS_COUNT = 3
 CONV_ARGS = [{
         'kernel_size': 11,
         'strides': 4,
@@ -39,7 +41,7 @@ GRU_LAYER_SIZE = 256
 RANDOM_STATE = 1
 MODEL_ARGS = {
     'batch_size': 32,
-    'epochs': 20
+    'epochs': 100
 }
 
 
@@ -61,15 +63,14 @@ def train_model(data):
     model.add(Conv1D(input_shape=input_shape, **CONV_ARGS[1]))
     model.add(Activation('relu'))
     model.add(MaxPool1D(2))
-    print model.output.shape
+    print(model.output.shape)
 
     for i in range(1, CONV_LAYERS_COUNT):
-        print i
-        model.add(Conv1D(**CONV_ARGS[i]))
+        model.add(Conv1D(**CONV_ARGS[1]))
         model.add(Activation('relu'))
-        if i < 2:
+        if i < 3:
             model.add(MaxPool1D(2))
-        print model.output.shape
+        print(model.output.shape)
 
     model.add(Dropout(0.5))
     model.add(GRU(GRU_LAYER_SIZE, return_sequences=True))
@@ -84,15 +85,33 @@ def train_model(data):
 
     model.compile(
         loss='categorical_crossentropy',
-        optimizer=Adam(lr=0.0001),
+        optimizer=Adam(lr=0.0005),
         metrics=['accuracy']
     )
 
     # Training
-    model.fit(x_train, y_train, validation_data=(x_val, y_val), **MODEL_ARGS)
+    history = model.fit(x_train, y_train, validation_data=(x_val, y_val), **MODEL_ARGS)
 
     scores = model.evaluate(x_test, y_test)
     print("Accuracy: %.2f%%" % (scores[1] * 100))
+
+    # summarize history for accuracy
+    plt.plot(history.history['acc'])
+    plt.plot(history.history['val_acc'])
+    plt.title('model accuracy')
+    plt.ylabel('accuracy')
+    plt.xlabel('epoch')
+    plt.legend(['train', 'test'], loc='upper left')
+    plt.show()
+
+    # summarize history for loss
+    plt.plot(history.history['loss'])
+    plt.plot(history.history['val_loss'])
+    plt.title('model loss')
+    plt.ylabel('loss')
+    plt.xlabel('epoch')
+    plt.legend(['train', 'test'], loc='upper left')
+    plt.show()
 
     return model
 

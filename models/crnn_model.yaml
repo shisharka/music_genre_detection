@@ -75,7 +75,7 @@ config:
       config: {}
     bias_regularizer: null
     dilation_rate: !!python/tuple [1]
-    filters: 384
+    filters: 256
     kernel_constraint: null
     kernel_initializer:
       class_name: VarianceScaling
@@ -89,54 +89,13 @@ config:
     use_bias: true
 - class_name: Activation
   config: {activation: relu, name: activation_3, trainable: true}
-- class_name: Conv1D
+- class_name: MaxPooling1D
   config:
-    activation: linear
-    activity_regularizer: null
-    bias_constraint: null
-    bias_initializer:
-      class_name: Zeros
-      config: {}
-    bias_regularizer: null
-    dilation_rate: !!python/tuple [1]
-    filters: 384
-    kernel_constraint: null
-    kernel_initializer:
-      class_name: VarianceScaling
-      config: {distribution: uniform, mode: fan_avg, scale: 1.0, seed: null}
-    kernel_regularizer: null
-    kernel_size: !!python/tuple [3]
-    name: conv1d_4
-    padding: same
-    strides: !!python/tuple [1]
+    name: max_pooling1d_3
+    padding: valid
+    pool_size: !!python/tuple [2]
+    strides: !!python/tuple [2]
     trainable: true
-    use_bias: true
-- class_name: Activation
-  config: {activation: relu, name: activation_4, trainable: true}
-- class_name: Conv1D
-  config:
-    activation: linear
-    activity_regularizer: null
-    bias_constraint: null
-    bias_initializer:
-      class_name: Zeros
-      config: {}
-    bias_regularizer: null
-    dilation_rate: !!python/tuple [1]
-    filters: 256
-    kernel_constraint: null
-    kernel_initializer:
-      class_name: VarianceScaling
-      config: {distribution: uniform, mode: fan_avg, scale: 1.0, seed: null}
-    kernel_regularizer: null
-    kernel_size: !!python/tuple [3]
-    name: conv1d_5
-    padding: same
-    strides: !!python/tuple [1]
-    trainable: true
-    use_bias: true
-- class_name: Activation
-  config: {activation: relu, name: activation_5, trainable: true}
 - class_name: Dropout
   config: {name: dropout_1, rate: 0.5, trainable: true}
 - class_name: GRU
@@ -167,7 +126,7 @@ config:
     return_sequences: true
     stateful: false
     trainable: true
-    units: 256
+    units: 512
     unroll: false
     use_bias: true
 - class_name: Dropout
@@ -203,11 +162,11 @@ config:
     function: !!python/tuple ["c\x01\0\0\0\x01\0\0\0\x04\0\0\0S\0\0\0s\x13\0\0\0t\0\
         \0j\x01\0|\0\0d\x01\0d\x02\0\x83\x01\x01S(\x03\0\0\0Nt\x04\0\0\0axisi\x01\0\
         \0\0(\x02\0\0\0t\x01\0\0\0Kt\x04\0\0\0mean(\x01\0\0\0t\x01\0\0\0x(\0\0\0\0\
-        (\0\0\0\0s\x13\0\0\0train_crnn_model.pyt\b\0\0\0<lambda>Q\0\0\0s\0\0\0\0",
+        (\0\0\0\0s\x13\0\0\0train_crnn_model.pyt\b\0\0\0<lambda>R\0\0\0s\0\0\0\0",
       null, null]
     function_type: lambda
     name: merged_output
     output_shape: null
     output_shape_type: raw
     trainable: true
-keras_version: 2.0.4
+keras_version: 2.0.2
