@@ -85,7 +85,7 @@ def train_model(data):
 
     model.compile(
         loss='categorical_crossentropy',
-        optimizer=Adam(lr=0.0005),
+        optimizer=Adam(lr=1e-4),
         metrics=['accuracy']
     )
 

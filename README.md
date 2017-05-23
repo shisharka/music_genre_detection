@@ -10,10 +10,11 @@ The project is built on python2.7
 
 #### Conda install
 
-Create a fresh virtual environment:
+Create and activate a fresh virtual environment:
 
 ```shell
 conda create -n [yourenvname] python=2.7 anaconda
+source activate [yourenvname] 
 ```
 
 Install required packages:
