@@ -51,8 +51,8 @@ To download raw data, run
 python download_data.py
 ```
 
-This will create data/ directory in project's root, and download and extract both audio and lyrics datasets
-into it's subdirectories: data/genres/ and data/lyrics/
+This will create _data/_ directory in project's root, and download and extract both audio and lyrics datasets
+into it's subdirectories: _data/genres/_ and _data/lyrics/_
 
 After that, run 
 
@@ -60,7 +60,7 @@ After that, run
 python preprocess_data.py
 ```
 
-to create preprocessed datasets (also stored in data/ directory).
+to create preprocessed datasets (also stored in _data/_ directory).
 
 ### Training
 
