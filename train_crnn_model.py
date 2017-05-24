@@ -37,11 +37,11 @@ CONV_ARGS = [{
         'padding': 'same'
     }
 ]
-GRU_LAYER_SIZE = 256
+GRU_LAYER_SIZE = 128
 RANDOM_STATE = 3
 MODEL_ARGS = {
     'batch_size': 32,
-    'epochs': 100
+    'epochs': 200
 }
 
 
@@ -49,10 +49,10 @@ def train_model(data):
     x = data['x']
     y = data['y']
     (x_train_val, x_test, y_train_val, y_test) = \
-        train_test_split(x, y, test_size=0.33, random_state=RANDOM_STATE)
+        train_test_split(x, y, test_size=0.1, random_state=RANDOM_STATE)
     (x_train, x_val, y_train, y_val) = train_test_split(x_train_val,
                                                         y_train_val,
-                                                        test_size=0.33,
+                                                        test_size=0.2,
                                                         random_state=RANDOM_STATE)
 
     # Building model
@@ -72,9 +72,9 @@ def train_model(data):
         print model.output.shape
 
     model.add(MaxPool1D(2))
-    # model.add(Dropout(0.5))
+    model.add(Dropout(0.5))
     model.add(GRU(GRU_LAYER_SIZE, return_sequences=True))
-    # model.add(Dropout(0.5))
+    model.add(Dropout(0.5))
     model.add(TimeDistributed(Dense(len(GENRES))))
     model.add(Activation('softmax', name='realtime_output'))
 
