@@ -9,7 +9,7 @@ from keras import backend as K
 import matplotlib.pyplot as plt
 from dataset_config import GENRES
 
-CONV_LAYERS_COUNT = 5
+CONV_LAYERS_COUNT = 3
 CONV_ARGS = [{
         'kernel_size': 11,
         'strides': 4,
@@ -37,11 +37,11 @@ CONV_ARGS = [{
         'padding': 'same'
     }
 ]
-GRU_LAYER_SIZE = 128
+GRU_LAYER_SIZE = 256
 RANDOM_STATE = 3
 MODEL_ARGS = {
     'batch_size': 32,
-    'epochs': 200
+    'epochs': 50
 }
 
 
@@ -60,18 +60,21 @@ def train_model(data):
 
     input_shape = (x_train.shape[1], x_train.shape[2])
 
-    model.add(Conv1D(input_shape=input_shape, **CONV_ARGS[0]))
+    model.add(Conv1D(input_shape=input_shape, **CONV_ARGS[1]))
     model.add(Activation('relu'))
+    model.add(MaxPool1D(2))
     print model.output.shape
 
     for i in range(1, CONV_LAYERS_COUNT):
-        model.add(Conv1D(**CONV_ARGS[i]))
+        model.add(Conv1D(**CONV_ARGS[1]))
         model.add(Activation('relu'))
+        if i == 1:
+            model.add(Dropout(0.25))
         if i < 3:
             model.add(MaxPool1D(2))
         print model.output.shape
 
-    model.add(MaxPool1D(2))
+    # model.add(MaxPool1D(2))
     model.add(Dropout(0.5))
     model.add(GRU(GRU_LAYER_SIZE, return_sequences=True))
     model.add(Dropout(0.5))
