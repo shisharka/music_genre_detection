@@ -1,5 +1,6 @@
 import numpy as np
 from librosa import load, feature
+import keras.backend as K
 
 MEL_ARGS = {
     'n_fft': 2048,
@@ -25,3 +26,10 @@ def audio_to_melspectrogram(file_path, enforce_shape=False):
     features[features == 0] = 10**-6 # because of log scaling
 
     return np.log(features), input_track.shape[0] * 1.0 / sample_rate
+
+
+def get_layer_output_function(model, layer_index):
+    input = model.layers[0].input
+    output = model.layers[layer_index].output
+    f = K.function([input, K.learning_phase()], [output])
+    return lambda x: f([x, 0]) # learning_phase = 0 means test
