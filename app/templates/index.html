@@ -1,0 +1,40 @@
+{% extends 'layout.html' %}
+{% block content %}
+<div id="upload">
+    <table>
+        <tr>
+            <td>
+                <h2>Select a file to upload</h2>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <form enctype="multipart/form-data">
+                    <div class="upload-file">
+                        <img class="upload-img" src="assets/img/upload-icon.png"/>
+                        <input class="upload-input" name="filearg" type="file" data-tip="Upload file"/>
+                    </div>
+                </form>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <h2>
+                    or paste URL from
+                    <a href="http://www.youtube.com" target="_blank">
+                        <img class="yt-logo" src="assets/img/youtube_logo.png"/>
+                    </a>
+                </h2>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <form>
+                    <input class="yt-input" type="text" name="youtube_url" placeholder="Enter YouTube link here..."/>
+                    <input class="yt-submit" type="submit" name="test-form" value="Send"/>
+                </form>
+            </td>
+        </tr>
+    </table>
+</div>
+{% endblock %}

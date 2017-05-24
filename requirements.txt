@@ -6,3 +6,5 @@ pyacoustid
 bs4
 h5py
 progressbar
+tornado
+flask

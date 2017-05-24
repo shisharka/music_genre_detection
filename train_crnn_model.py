@@ -9,7 +9,7 @@ from keras import backend as K
 import matplotlib.pyplot as plt
 from dataset_config import GENRES
 
-CONV_LAYERS_COUNT = 5
+CONV_LAYERS_COUNT = 3
 CONV_ARGS = [{
         'kernel_size': 11,
         'strides': 4,
@@ -41,7 +41,7 @@ GRU_LAYER_SIZE = 256
 RANDOM_STATE = 3
 MODEL_ARGS = {
     'batch_size': 32,
-    'epochs': 100
+    'epochs': 50
 }
 
 
@@ -49,10 +49,10 @@ def train_model(data):
     x = data['x']
     y = data['y']
     (x_train_val, x_test, y_train_val, y_test) = \
-        train_test_split(x, y, test_size=0.33, random_state=RANDOM_STATE)
+        train_test_split(x, y, test_size=0.1, random_state=RANDOM_STATE)
     (x_train, x_val, y_train, y_val) = train_test_split(x_train_val,
                                                         y_train_val,
-                                                        test_size=0.33,
+                                                        test_size=0.2,
                                                         random_state=RANDOM_STATE)
 
     # Building model
@@ -60,21 +60,24 @@ def train_model(data):
 
     input_shape = (x_train.shape[1], x_train.shape[2])
 
-    model.add(Conv1D(input_shape=input_shape, **CONV_ARGS[0]))
+    model.add(Conv1D(input_shape=input_shape, **CONV_ARGS[1]))
     model.add(Activation('relu'))
+    model.add(MaxPool1D(2))
     print model.output.shape
 
     for i in range(1, CONV_LAYERS_COUNT):
-        model.add(Conv1D(**CONV_ARGS[i]))
+        model.add(Conv1D(**CONV_ARGS[1]))
         model.add(Activation('relu'))
+        if i == 1:
+            model.add(Dropout(0.25))
         if i < 3:
             model.add(MaxPool1D(2))
         print model.output.shape
 
-    model.add(MaxPool1D(2))
-    # model.add(Dropout(0.5))
+    # model.add(MaxPool1D(2))
+    model.add(Dropout(0.5))
     model.add(GRU(GRU_LAYER_SIZE, return_sequences=True))
-    # model.add(Dropout(0.5))
+    model.add(Dropout(0.5))
     model.add(TimeDistributed(Dense(len(GENRES))))
     model.add(Activation('softmax', name='realtime_output'))
 
@@ -85,7 +88,7 @@ def train_model(data):
 
     model.compile(
         loss='categorical_crossentropy',
-        optimizer=Adam(lr=0.0005),
+        optimizer=Adam(lr=1e-4),
         metrics=['accuracy']
     )
 
