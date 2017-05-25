@@ -1,9 +1,9 @@
 import os
-from flask import Flask, jsonify, render_template, request, redirect, url_for
+from flask import Flask, jsonify, render_template, request, redirect, url_for, send_from_directory
 from werkzeug.utils import secure_filename
 import json
 import numpy as np
-from genre_recognizer import GenreRecognizer
+from genre_detector import GenreDetector
 from dataset_config import GENRES
 
 UPLOADS_PATH = 'uploads'
@@ -36,13 +36,11 @@ def get_genre_distribution_over_time(predictions, duration, merged_predictions):
                 for (genre_index, genre_name) in enumerate(GENRES)}
 
     def get_merged_genre():
-        print(merged_predictions)
-        print(merged_predictions[0, 1])
         return {genre_name: float(merged_predictions[0, genre_index])
                 for (genre_index, genre_name) in enumerate(GENRES)}
 
     return [((step + 1) * delta_t, get_genre_distribution(step))
-            for step in xrange(n_steps - 2)] + [(n_steps - 1) * delta_t, get_merged_genre()]
+            for step in xrange(n_steps - 2)] + [((n_steps - 1) * delta_t, get_merged_genre())]
 
 
 @app.route('/', methods=['GET'])
@@ -64,24 +62,36 @@ def upload_file():
         path = os.path.join(UPLOADS_PATH, filename)
         uploaded_file.save(path)
 
-        genre_recognizer = GenreRecognizer(MODEL_PATH, WEIGHTS_PATH)
-        (predictions, duration) = genre_recognizer.recognize_realtime(path)
-        merged_prediction = genre_recognizer.recognize_merged()
+        genre_detector = GenreDetector(MODEL_PATH, WEIGHTS_PATH)
+        (predictions, duration) = genre_detector.detect_realtime(path)
+        merged_predictions = genre_detector.detect_merged()
         genre_distributions = get_genre_distribution_over_time(
-            predictions, duration, merged_prediction)
+            predictions, duration, merged_predictions)
         json_path = os.path.join(UPLOADS_PATH, filename + '.json')
         with open(json_path, 'w') as f:
-            f.write(json.dumps(genre_distributions))
+            json_data = json.dumps(genre_distributions)
+            f.write(json_data)
 
         return redirect(url_for('play',
-                                filename=filename))
+                                filename=filename,
+                                json_data=json_data))
     else:
         return redirect(url_for('index'))
 
 
 @app.route('/play', methods=['GET'])
 def play():
-    return jsonify({'filename': request.args.get('filename')})
+    data = {
+        'filename': request.args.get('filename'),
+        'json_data': request.args.get('json_data')
+    }
+    return jsonify(data)
+
+
+@app.route('/uploads/<filename>')
+def uploaded_file(filename):
+    return send_from_directory(UPLOADS_PATH,
+                               filename)
 
 if __name__ == '__main__':
     app.run(port=8080, debug=True)

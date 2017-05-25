@@ -20,12 +20,14 @@
                 // stop loading animation
                 // wave.stop()
                 $('body').removeClass('loading')
-
-                console.log(data)
-
-                // redirect to play.html
-                // window.location.href = window.location.href.replace(/[^\/]*$/,
-                //         'play.html#' + JSON.parse(data));
+                var songPath = 'uploads/' + data.filename
+                $('audio').attr('src', songPath)
+                // pills(songPath, data.json_data);
+                var distributions = JSON.parse(data.json_data);
+                drawChart('genres-chart', distributions, function() {
+                    return $('audio').get(0).currentTime;
+                });
+                $('#chart-container').show();
             },
             error: function(data, texstStatus, jqXHR) {
                 // wave.stop()
