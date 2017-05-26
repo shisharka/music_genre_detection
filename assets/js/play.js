@@ -28,44 +28,61 @@ function lowerBound(array, element) {
 
 function drawChart(canvasId, distribution, timeFn) {
     var startValue = 0;
-    var data = GENRES.map(function(genre) {
-        var color = GENRE_TO_COLOR[genre];
-        return {
-            responsive: true,
-            value: startValue,
-            color: color,
-            highlight: color,
-            label: genre
-        };
-    });
-    // var data = {
-    //     labels: GENRES,
-    //     datasets: [{
-    //         backgroundColor: GENRES.map(function(genre) {
-    //             return GENRE_TO_COLOR[genre];
-    //         }),
-    //         data: [0, 0, 0, 0, 0, 0, 0, 0]
-    //     }]
-    // };
+    // var data = GENRES.map(function(genre) {
+    //     var color = GENRE_TO_COLOR[genre];
+    //     return {
+    //         responsive: true,
+    //         value: startValue,
+    //         color: color,
+    //         highlight: color,
+    //         label: genre
+    //     };
+    // });
+    var data = {
+        labels: GENRES,
+        // datasets: [{
+        //     fillColor: GENRES.map(function(genre) {
+        //         return GENRE_TO_COLOR[genre];
+        //     }),
+        //     data: [0, 0, 0, 0, 0, 0, 0, 0]
+        // }]
+        datasets: GENRES.map(function(genre) {
+            var color = GENRE_TO_COLOR[genre];
+            return {
+                backgroundColor: color,
+                borderColor: color,
+                data: [startValue]
+            };
+        })
+    };
+
+    console.log(data)
 
     var context = document.getElementById(canvasId).getContext('2d');
     var options = {
-        animationEasing: 'linear',
-        animationSteps: 10
+        responsive: true,
+        easing: 'linear',
+        duration: 10
     };
     // var chart = new Chart(context, {
     //     type: 'pie',
     //     data: data,
     //     options: options
     // });
-    var chart = new Chart(context).Pie(data, options);
+    // var chart = new Chart(context).Bar(data, options);
+    var chart = new Chart(context, {
+        type: 'bar',
+        data: data,
+        options: options
+    });
 
     function updateChart() {
         var i = lowerBound(distribution, timeFn());
 
         if(distribution[i]) {
             for(var j = 0; j < 8; j++) {
-                chart.segments[j].value =
+                chart.data.datasets[j].data[0] =
+                // chart.bars[j].value =
                     parseFloat(distribution[i][1][GENRES[j]]);
             }
             chart.update();

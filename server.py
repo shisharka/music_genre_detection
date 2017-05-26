@@ -3,9 +3,18 @@ from flask import Flask, jsonify, render_template, request, redirect, url_for, s
 from werkzeug.utils import secure_filename
 import json
 import numpy as np
-import pafy
 from genre_detector import GenreDetector
-from dataset_config import GENRES
+from helper import get_genre_distribution_over_time
+# allow YouTube download if necessary lybraries are present
+import imp
+try:
+    imp.find_module('pafy')
+    imp.find_module('youtube_dl')
+    allow_yt = True
+except ImportError:
+    allow_yt = False
+if allow_yt:
+    import pafy
 
 UPLOADS_PATH = 'uploads'
 ALLOWED_EXTENSIONS = set(['mp3', 'wav', 'webm', 'ogg'])
@@ -21,27 +30,6 @@ if not os.path.exists(UPLOADS_PATH):
 def allowed_file(filename):
     return '.' in filename and \
            filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
-
-
-def get_genre_distribution_over_time(predictions, duration, merged_predictions):
-    '''
-    Turns the matrix of predictions given by a model into a dict mapping
-    time in the song to a music genre distribution.
-    '''
-    predictions = np.reshape(predictions, predictions.shape[1:])
-    n_steps = predictions.shape[0]
-    delta_t = duration / n_steps
-
-    def get_genre_distribution(step):
-        return {genre_name: float(predictions[step, genre_index])
-                for (genre_index, genre_name) in enumerate(GENRES)}
-
-    def get_merged_genre():
-        return {genre_name: float(merged_predictions[0, genre_index])
-                for (genre_index, genre_name) in enumerate(GENRES)}
-
-    return [((step + 1) * delta_t, get_genre_distribution(step))
-            for step in xrange(n_steps - 2)] + [((n_steps - 1) * delta_t, get_merged_genre())]
 
 
 def download_yt_audio(url):
@@ -68,13 +56,7 @@ def download_yt_audio(url):
 
 @app.route('/', methods=['GET'])
 def index():
-    return render_template('index.html')
-
-
-@app.route('/lyrics', methods=['GET'])
-def lyrics():
-    data = {'value': request.args.get('echoValue')}
-    return jsonify(data)
+    return render_template('index.html', allow_yt = allow_yt)
 
 
 @app.route('/upload', methods=['POST'])
@@ -102,14 +84,15 @@ def upload_file():
         return redirect(url_for('index'))
 
 
-@app.route('/yt_download', methods=['POST'])
-def yt_download():
-    url = request.form.get('youtube_url')
-    filename, json_data = download_yt_audio(url)
+if allow_yt:
+    @app.route('/yt_download', methods=['POST'])
+    def yt_download():
+        url = request.form.get('youtube_url')
+        filename, json_data = download_yt_audio(url)
 
-    return redirect(url_for('play',
-                            filename=filename,
-                            json_data=json_data))
+        return redirect(url_for('play',
+                                filename=filename,
+                                json_data=json_data))
 
 
 @app.route('/play', methods=['GET'])
@@ -125,6 +108,11 @@ def play():
 def uploaded_file(filename):
     return send_from_directory(UPLOADS_PATH,
                                filename)
+
+
+@app.errorhandler(404)
+def page_not_fount(e):
+    return render_template('page_not_found.html')
 
 if __name__ == '__main__':
     app.run(port=8080, debug=True)

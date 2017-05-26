@@ -1,6 +1,7 @@
 import numpy as np
 from librosa import load, feature
 import keras.backend as K
+from dataset_config import GENRES
 
 MEL_ARGS = {
     'n_fft': 2048,
@@ -33,3 +34,23 @@ def get_layer_output_function(model, layer_index):
     output = model.layers[layer_index].output
     f = K.function([input, K.learning_phase()], [output])
     return lambda x: f([x, 0]) # learning_phase = 0 means test
+
+def get_genre_distribution_over_time(predictions, duration, merged_predictions):
+    '''
+    Turns the matrix of predictions given by a model into a dict mapping
+    time in the song to a music genre distribution.
+    '''
+    predictions = np.reshape(predictions, predictions.shape[1:])
+    n_steps = predictions.shape[0]
+    delta_t = duration / n_steps
+
+    def get_genre_distribution(step):
+        return {genre_name: float(predictions[step, genre_index])
+                for (genre_index, genre_name) in enumerate(GENRES)}
+
+    def get_merged_genre():
+        return {genre_name: float(merged_predictions[0, genre_index])
+                for (genre_index, genre_name) in enumerate(GENRES)}
+
+    return [((step + 1) * delta_t, get_genre_distribution(step))
+            for step in xrange(n_steps - 2)] + [((n_steps - 1) * delta_t, get_merged_genre())]

@@ -1,14 +1,11 @@
 'use strict';
 
 (function() {
-
-    function sendUploadForm() {
-        var formData = new FormData($('form[name=upload-form]')[0]);
+    function sendForm($form, url) {
         $.ajax({
-            url: '/upload',
+            url: url,
             type: 'POST',
-
-            // Ajax events
+            // Ajax callbacks
             beforeSend: function(data, testStatus, jqXHR) {
                 // hide upload form abd start loading animation
                 $('#upload').fadeOut(300, function() {
@@ -22,7 +19,6 @@
                 var $audio = $('audio')
                 $audio[0].src = songPath
                 $audio[0].play()
-                // pills(songPath, data.json_data);
                 var distributions = JSON.parse(data.json_data);
                 drawChart('genres-chart', distributions, function() {
                     return $audio[0].currentTime;
@@ -35,10 +31,9 @@
                 console.log('error')
                 console.log(data)
             },
-
-            data: formData,
-
-            // Options to tell jQuery not to process data or worry about content-type.
+            // Form data
+            data: new FormData($form),
+            // Ignore contentType and skip processData
             cache: false,
             contentType: false,
             processData: false
@@ -50,7 +45,13 @@
     });
 
     $(function() {
-        $('.upload-input').change(sendUploadForm);
+        $('.upload-input').change(function() {
+            sendForm($('form[name=upload-form]')[0], '/upload');
+        });
     });
 
+    $(document).on('submit','form[name=yt-form]',function(e){
+        e.preventDefault();
+        sendForm($('form[name=yt-form]')[0], '/yt_download');
+    });
 })();
