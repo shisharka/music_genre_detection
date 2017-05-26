@@ -1,11 +1,11 @@
-'use strict';
+  'use strict';
 
 (function() {
 
-    function sendUploadForm() {
-        var formData = new FormData($('form[name=upload-form]')[0]);
+    function sendYTForm() {
+        var formData = new FormData($('form[name=yt-form]')[0]);
         $.ajax({
-            url: '/upload',
+            url: '/yt_download',
             type: 'POST',
 
             // Ajax events
@@ -45,12 +45,9 @@
         });
     }
 
-    $(document).on('submit','form[name=upload-form]',function(e){
+    $(document).on('submit','form[name=yt-form]',function(e){
         e.preventDefault();
-    });
-
-    $(function() {
-        $('.upload-input').change(sendUploadForm);
+        sendYTForm();
     });
 
 })();

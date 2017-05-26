@@ -3,11 +3,12 @@ from flask import Flask, jsonify, render_template, request, redirect, url_for, s
 from werkzeug.utils import secure_filename
 import json
 import numpy as np
+import pafy
 from genre_detector import GenreDetector
 from dataset_config import GENRES
 
 UPLOADS_PATH = 'uploads'
-ALLOWED_EXTENSIONS = set(['mp3', 'wav', 'au'])
+ALLOWED_EXTENSIONS = set(['mp3', 'wav', 'webm', 'ogg'])
 MODEL_PATH = 'models/crnn_model.yaml'
 WEIGHTS_PATH = 'models/crnn_weights.h5'
 
@@ -41,6 +42,28 @@ def get_genre_distribution_over_time(predictions, duration, merged_predictions):
 
     return [((step + 1) * delta_t, get_genre_distribution(step))
             for step in xrange(n_steps - 2)] + [((n_steps - 1) * delta_t, get_merged_genre())]
+
+
+def download_yt_audio(url):
+    video = pafy.new(url)
+    title = secure_filename(video.title)
+    bestaudio = video.getbestaudio(preftype='webm')
+    filename = title + '.' + bestaudio.extension
+    path = os.path.join(UPLOADS_PATH, filename)
+
+    bestaudio.download(filepath=path)
+
+    genre_detector = GenreDetector(MODEL_PATH, WEIGHTS_PATH)
+    (predictions, duration) = genre_detector.detect_realtime(path)
+    merged_predictions = genre_detector.detect_merged()
+    genre_distributions = get_genre_distribution_over_time(
+        predictions, duration, merged_predictions)
+    json_path = os.path.join(UPLOADS_PATH, filename + '.json')
+    with open(json_path, 'w') as f:
+        json_data = json.dumps(genre_distributions)
+        f.write(json_data)
+
+    return filename, json_data
 
 
 @app.route('/', methods=['GET'])
@@ -77,6 +100,16 @@ def upload_file():
                                 json_data=json_data))
     else:
         return redirect(url_for('index'))
+
+
+@app.route('/yt_download', methods=['POST'])
+def yt_download():
+    url = request.form.get('youtube_url')
+    filename, json_data = download_yt_audio(url)
+
+    return redirect(url_for('play',
+                            filename=filename,
+                            json_data=json_data))
 
 
 @app.route('/play', methods=['GET'])

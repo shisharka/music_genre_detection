@@ -5,6 +5,7 @@ body {
     -moz-background-size: cover;
     -o-background-size: cover;
     background-size: cover;
+    font-family: monospace;
 }
 
 #upload {
@@ -28,7 +29,6 @@ body {
 }
 
 #upload table td h2 {
-    font-family: monospace;
     color: white;
     text-shadow: 0 0 10px rgba(0, 0, 0, 0.7);
 }
@@ -91,7 +91,6 @@ body {
 }
 
 .yt-submit:hover {
-    text-shadow: 0 0 10px black;
     box-shadow: 0 0 6px rgba(237, 104, 110, 0.7);
 }
 
@@ -101,6 +100,7 @@ body {
 
 .yt-logo {
     width: 100px;
+    cursor: pointer;
 }
 
 #chart-container {
@@ -136,4 +136,64 @@ body {
     height: 20px;
     display: inline-block;
     border-radius: 2px;
+}
+
+#audio-ctrl {
+    display: none;
+}
+
+/*loading animation*/
+
+.spinner {
+    display: none;
+    margin: 300px auto;
+    width: 80px;
+    height: 60px;
+    text-align: center;
+    font-size: 10px;
+}
+
+.spinner > div {
+    background-color: rgba(50, 0, 30, 0.7);
+    height: 100%;
+    width: 10px;
+    display: inline-block;
+
+    -webkit-animation: sk-stretchdelay 1.2s infinite ease-in-out;
+    animation: sk-stretchdelay 1.2s infinite ease-in-out;
+}
+
+.spinner .rect2 {
+    -webkit-animation-delay: -1.1s;
+    animation-delay: -1.1s;
+}
+
+.spinner .rect3 {
+    -webkit-animation-delay: -1.0s;
+    animation-delay: -1.0s;
+}
+
+.spinner .rect4 {
+    -webkit-animation-delay: -0.9s;
+    animation-delay: -0.9s;
+}
+
+.spinner .rect5 {
+    -webkit-animation-delay: -0.8s;
+    animation-delay: -0.8s;
+}
+
+@-webkit-keyframes sk-stretchdelay {
+    0%, 40%, 100% { -webkit-transform: scaleY(0.4) }  
+    20% { -webkit-transform: scaleY(1.0) }
+}
+
+@keyframes sk-stretchdelay {
+    0%, 40%, 100% { 
+        transform: scaleY(0.4);
+        -webkit-transform: scaleY(0.4);
+    }  20% { 
+        transform: scaleY(1.0);
+        -webkit-transform: scaleY(1.0);
+    }
 }

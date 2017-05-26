@@ -9,7 +9,7 @@
         </tr>
         <tr>
             <td>
-                <form name="upload-form" enctype="multipart/form-data" method="post" action="upload">
+                <form name="upload-form" enctype="multipart/form-data" method="post">
                     <div class="upload-file">
                         <img class="upload-img" src="assets/img/upload-icon.png"/>
                         <input class="upload-input" name="file" type="file"/>
@@ -29,7 +29,7 @@
         </tr>
         <tr>
             <td>
-                <form name="yt-form" method="post" action="yt_upload">
+                <form name="yt-form" method="post" action="yt_download">
                     <input class="yt-input" type="text" name="youtube_url" placeholder="Enter YouTube link here..."/>
                     <input class="yt-submit" type="submit" name="yt-form" value="Send"/>
                 </form>
@@ -38,7 +38,19 @@
     </table>
 </div>
 
-<audio controls></audio>
+<div class="spinner">
+  <div class="rect1"></div>
+  <div class="rect2"></div>
+  <div class="rect3"></div>
+  <div class="rect4"></div>
+  <div class="rect5"></div>
+</div>
+
+<audio id="audio-ctrl" controls>
+    <p>
+        If you are reading this, it is because your browser does not support the audio element.
+    </p>
+</audio>
 
 <div id="chart-container">
     <canvas id="genres-chart"></canvas>

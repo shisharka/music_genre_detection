@@ -31,6 +31,7 @@ function drawChart(canvasId, distribution, timeFn) {
     var data = GENRES.map(function(genre) {
         var color = GENRE_TO_COLOR[genre];
         return {
+            responsive: true,
             value: startValue,
             color: color,
             highlight: color,
