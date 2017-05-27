@@ -36,12 +36,18 @@ body {
 .upload-file {
     position: relative;
     padding-bottom: 100%;
+    border: 2px solid transparent;
     border-radius: 50%;
     background-color: rgba(50, 0, 30, 0.3);
 }
 
 .upload-file:hover {
     box-shadow: 0 0 12px rgb(237, 104, 110);
+}
+
+.upload-file:active {
+    border: 2px solid rgba(237, 104, 110, 0.5);
+    transform: translateX(-2px);
 }
 
 .upload-img {
@@ -109,14 +115,13 @@ body {
     position: fixed;
     left: 50%;
     top: 50%;
-    margin-left: -300px;
-    margin-top: -250px;
+    margin-left: -200px;
+    margin-top: -180px;
 }
 
 #genres-chart {
-    position: relative;
-    width: 400px;
-    height: 450px;
+    max-width: 400px;
+    max-height: 400px;
 }
 
 #legend {
@@ -140,21 +145,29 @@ body {
     display: none;
 }
 
+#audio-ctrl p {
+    color: white;
+}
+
 /*loading animation*/
 
 .spinner {
     display: none;
-    margin: 350px auto;
-    width: 80px;
-    height: 60px;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    margin: auto;
     text-align: center;
-    font-size: 10px;
+    height: 90px;
+    font-size: 15px;
 }
 
 .spinner > div {
     background-color: rgba(50, 0, 30, 0.7);
     height: 100%;
-    width: 10px;
+    width: 13px;
     display: inline-block;
 
     -webkit-animation: sk-stretchdelay 1.2s infinite ease-in-out;

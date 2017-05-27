@@ -3,14 +3,25 @@
 var GENRES = ['blues', 'country', 'disco', 'hiphop', 'metal', 'pop', 'reggae', 'rock'];
 
 var GENRE_TO_COLOR = {
-    'blues': '#0033cc',
-    'country': '#cc6600',
-    'disco': '#ff66cc',
-    'hiphop': '#660066',
-    'metal': '#999966',
-    'pop': '#00cc66',
-    'reggae': '#ffcc66',
-    'rock': '#cc0000'
+    'blues': 'rgba(105, 105, 105, 0.8)',
+    'country': 'rgba(193, 66, 0, 0.8)',
+    'disco': 'rgba(144, 93, 0, 0.8)',
+    'hiphop': 'rgba(190, 202, 0, 0.8)',
+    'metal': 'rgba(0, 131, 2, 0.8)',
+    'pop': 'rgba(32, 178, 170, 0.8)',
+    'reggae': 'rgba(0, 7, 213, 0.8)',
+    'rock': 'rgba(144, 0, 123, 0.8)'
+};
+
+var GENRE_TO_HOVER_COLOR = {
+    'blues': 'rgb(105, 105, 105)',
+    'country': 'rgb(193, 66, 0)',
+    'disco': 'rgb(144, 93, 0)',
+    'hiphop': 'rgb(190, 202, 0)',
+    'metal': 'rgb(0, 131, 2)',
+    'pop': 'rgb(32, 178, 170)',
+    'reggae': 'rgb(0, 7, 213)',
+    'rock': 'rgb(144, 0, 123)'
 };
 
 function lowerBound(array, element) {
@@ -26,90 +37,70 @@ function lowerBound(array, element) {
     return begin;
 }
 
-function drawChart(canvasId, distribution, timeFn) {
-    var startValue = 0;
-    // var data = GENRES.map(function(genre) {
-    //     var color = GENRE_TO_COLOR[genre];
-    //     return {
-    //         responsive: true,
-    //         value: startValue,
-    //         color: color,
-    //         highlight: color,
-    //         label: genre
-    //     };
-    // });
+function drawChart(canvasId, distribution, currentTime) {
+    var colors = GENRES.map(function(genre) {
+        return GENRE_TO_COLOR[genre];
+    });
+
+    var hoverColors = GENRES.map(function(genre) {
+        return GENRE_TO_HOVER_COLOR[genre];
+    });
+
     var data = {
         labels: GENRES,
-        // datasets: [{
-        //     fillColor: GENRES.map(function(genre) {
-        //         return GENRE_TO_COLOR[genre];
-        //     }),
-        //     data: [0, 0, 0, 0, 0, 0, 0, 0]
-        // }]
-        datasets: GENRES.map(function(genre) {
-            var color = GENRE_TO_COLOR[genre];
-            return {
-                backgroundColor: color,
-                borderColor: color,
-                data: [startValue]
-            };
-        })
+        datasets: [{
+            backgroundColor: colors,
+            // hoverBackgroundColor: hover_colors,
+            borderColor: 'rgba(50, 0, 30, 0.7)',
+            data: [0, 0, 0, 0, 0, 0, 0, 0] 
+        }]
     };
 
-    console.log(data)
-
-    var context = document.getElementById(canvasId).getContext('2d');
+    var ctx = document.getElementById(canvasId).getContext('2d');
     var options = {
-        responsive: true,
         easing: 'linear',
-        duration: 10
+        duration: 10,
+        legend: {
+            labels: {
+                fontColor: 'white',
+                fontSize: 15
+            },
+            onClick: function(event, legendItem) {}
+        },
+        tooltips: {
+            callbacks: {
+                label: function(tooltipItem, data) {
+                    var label = data.datasets[tooltipItem.datasetIndex].data[tooltipItem.index];
+                    var datasetLabel = data.labels[tooltipItem.index];
+                    return datasetLabel + ': ' + label;
+                }
+            },
+            enabled: false
+        }
     };
-    // var chart = new Chart(context, {
-    //     type: 'pie',
-    //     data: data,
-    //     options: options
-    // });
-    // var chart = new Chart(context).Bar(data, options);
-    var chart = new Chart(context, {
-        type: 'bar',
+
+    var chart = new Chart(ctx, {
+        type: 'pie',
         data: data,
         options: options
     });
 
     function updateChart() {
-        var i = lowerBound(distribution, timeFn());
+        var i = lowerBound(distribution, currentTime());
 
         if(distribution[i]) {
             for(var j = 0; j < 8; j++) {
-                chart.data.datasets[j].data[0] =
-                // chart.bars[j].value =
+                chart.data.datasets[0].data[j] =
                     parseFloat(distribution[i][1][GENRES[j]]);
             }
             chart.update();
             setTimeout(updateChart, 100);
         }
+        else {
+            chart.options.tooltips.enabled = true
+            chart.data.datasets[0].hoverBackgroundColor = hoverColors;
+        }
     }
 
     updateChart();
 }
-
-// (function() {
-
-
-//     $(function() {
-//         var filename = window.location.hash.substr(1);
-//         var songPath = 'uploads/' + filename;
-//         var jsonPath = 'uploads/' + filename + '.json';
-//         $.ajax({
-//             url: jsonPath,
-//             success: function(result) {
-//                 // pills(songPath, result);
-//                 drawChart('#genres-chart', result, function() {
-//                     return $('audio').get(0).currentTime;
-//                 });
-//                 $('#chart-container').show();
-//             }
-//         });
-//     });
-// })();
-

@@ -19,6 +19,9 @@
                 var $audio = $('audio')
                 $audio[0].src = songPath
                 $audio[0].play()
+
+                console.log($audio)
+                
                 var distributions = JSON.parse(data.json_data);
                 drawChart('genres-chart', distributions, function() {
                     return $audio[0].currentTime;
