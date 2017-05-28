@@ -9,6 +9,7 @@ MEL_ARGS = {
     'n_mels': 128
 }
 
+# max shape from our dataset
 default_input_shape = (660, 128)
 
 
@@ -35,11 +36,10 @@ def get_layer_output_function(model, layer_index):
     f = K.function([input, K.learning_phase()], [output])
     return lambda x: f([x, 0]) # learning_phase = 0 means test
 
+
 def get_genre_distribution_over_time(predictions, duration, merged_predictions):
-    '''
-    Turns the matrix of predictions given by a model into a dict mapping
-    time in the song to a music genre distribution.
-    '''
+    """Turns the matrix of predictions into a dictionary mapping time in the song
+    to a music genre distribution vector"""
     predictions = np.reshape(predictions, predictions.shape[1:])
     n_steps = predictions.shape[0]
     delta_t = duration / n_steps
@@ -52,5 +52,5 @@ def get_genre_distribution_over_time(predictions, duration, merged_predictions):
         return {genre_name: float(merged_predictions[0, genre_index])
                 for (genre_index, genre_name) in enumerate(GENRES)}
 
-    return [((step + 1) * delta_t, get_genre_distribution(step))
-            for step in xrange(n_steps - 2)] + [((n_steps - 1) * delta_t, get_merged_genre())]
+    return [(step * delta_t, get_genre_distribution(step))
+            for step in range(n_steps)] + [(n_steps * delta_t, get_merged_genre())]

@@ -115,14 +115,14 @@ def train_model(data):
 
     return model
 
+if __name__ == '__main__':
+    with open('data/melspectrogram_data.pkl', 'r') as f:
+        data = pickle.load(f)
 
-with open('data/melspectrogram_data.pkl', 'r') as f:
-    data = pickle.load(f)
+    model = train_model(data)
 
-model = train_model(data)
-
-if not os.path.exists('models'):
-    os.makedirs('models')
-with open('models/crnn_model1.yaml', 'w') as f:
-    f.write(model.to_yaml())
-model.save_weights('models/crnn_weights1.h5')
+    if not os.path.exists('models'):
+        os.makedirs('models')
+    with open('models/crnn_model1.yaml', 'w') as f:
+        f.write(model.to_yaml())
+    model.save_weights('models/crnn_weights1.h5')

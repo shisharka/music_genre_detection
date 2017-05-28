@@ -24,12 +24,30 @@ var GENRE_TO_HOVER_COLOR = {
     'rock': 'rgb(144, 0, 123)'
 };
 
+var GLOBAL = {
+    timeouts: [], // global timeout ids array
+    setTimeout: function(code, number){
+        this.timeouts.push(setTimeout(code, number));
+    },
+    clearAllTimeouts: function(){
+        for (var i=0; i<this.timeouts.length; i++) {
+            window.clearTimeout(this.timeouts[i]); // clear all the timeouts
+        }
+        this.timeouts= []; // empty the ids array
+    }
+};
+
+var chart;
+
 function lowerBound(array, element) {
     var begin = 0;
     var end = array.length;
     while(begin < end) {
         var m = Math.floor((begin + end) / 2);
-        if(array[m][0] >= element)
+
+        if(array[m][0] == element) return m;
+
+        if(array[m][0] > element)
             end = m;
         else
             begin = m + 1;
@@ -50,7 +68,6 @@ function drawChart(canvasId, distribution, currentTime) {
         labels: GENRES,
         datasets: [{
             backgroundColor: colors,
-            // hoverBackgroundColor: hover_colors,
             borderColor: 'rgba(50, 0, 30, 0.7)',
             data: [0, 0, 0, 0, 0, 0, 0, 0] 
         }]
@@ -78,27 +95,37 @@ function drawChart(canvasId, distribution, currentTime) {
             enabled: false
         }
     };
-
-    var chart = new Chart(ctx, {
-        type: 'pie',
-        data: data,
-        options: options
-    });
+    
+    if(!chart) {
+        chart = new Chart(ctx, {
+            type: 'pie',
+            data: data,
+            options: options
+        });
+    }
+    else {
+        chart.data.datasets.data = data.datasets.data;
+    }
 
     function updateChart() {
         var i = lowerBound(distribution, currentTime());
+        var timeoutId;
 
-        if(distribution[i]) {
-            for(var j = 0; j < 8; j++) {
-                chart.data.datasets[0].data[j] =
-                    parseFloat(distribution[i][1][GENRES[j]]);
-            }
-            chart.update();
-            setTimeout(updateChart, 100);
+        for(var j = 0; j < 8; j++) {
+            chart.data.datasets[0].data[j] =
+                parseFloat(distribution[i][1][GENRES[j]]);
+        }
+        chart.update();
+        
+        if(i < distribution.length - 1) {
+            GLOBAL.setTimeout(updateChart, 100);
         }
         else {
+            GLOBAL.clearAllTimeouts();
             chart.options.tooltips.enabled = true
             chart.data.datasets[0].hoverBackgroundColor = hoverColors;
+            $('.jump-to-end-btn').removeClass('active');
+            $('.play-btn').removeClass('active');
         }
     }
 

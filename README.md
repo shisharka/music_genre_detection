@@ -90,4 +90,4 @@ Command to run demo app:
 python server.py
 ```
 
-Now you can access the demo app from your browser on localhost:8080.
+Now you can access the demo app from your browser at localhost:8080.
