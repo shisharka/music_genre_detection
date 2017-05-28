@@ -1,0 +1,283 @@
+body {
+    background: url(../img/background1.jpg) no-repeat center center fixed;
+    background-repeat: no-repeat;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+    font-family: monospace;
+}
+
+.header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    padding: 20px;
+    text-align: center;
+    background-color: rgba(50, 0, 30, 0.7);
+    color: white;
+    font-size: 18px;
+}
+
+#index-header {
+    text-decoration: none;
+}
+
+#play-header {
+    display: none;
+}
+
+.play-header-btn {
+    margin-right: 10px;
+    color: gray;
+}
+
+.play-header-btn.active {
+    color: white;
+    cursor: pointer;
+}
+
+.play-header-btn.active:active {
+    text-shadow: 0 0 10px rgb(50, 0, 30) !important;
+}
+
+.play-header-btn.active:hover {
+    text-shadow: 0 0 5px;
+}
+
+.play-header-btn .fa-pause {
+    display: none;
+}
+
+#upload {
+    position: fixed;
+    left: 0;
+    right: 0;
+    top: 10%;
+    bottom: 0;
+    margin: auto;
+    width: 30%;
+    max-width: 230px;
+}
+
+#upload table {
+    width: 100%;
+    height: 60%;
+}
+
+#upload table td {
+    text-align: center;
+}
+
+#upload table td h2 {
+    color: white;
+    text-shadow: 0 0 10px rgba(0, 0, 0, 0.7);
+}
+
+.upload-file {
+    position: relative;
+    padding-bottom: 100%;
+    border: 2px solid transparent;
+    border-radius: 50%;
+    background-color: rgba(50, 0, 30, 0.3);
+}
+
+.upload-file:hover {
+    box-shadow: 0 0 12px rgb(237, 104, 110);
+}
+
+.upload-file:active {
+    border: 2px solid rgba(237, 104, 110, 0.5);
+    transform: translateX(1px);
+}
+
+.upload-img {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    margin: auto;
+    max-width: 80%;
+    max-height: 80%;
+}
+
+.upload-input {
+    position: absolute;
+    cursor: pointer;
+    opacity: 0;
+    width: 100%;
+    height: 100%;
+    left: 0;
+}
+
+.yt-input {
+    display: block;
+    width: 100%;
+    box-sizing: border-box;
+    padding: 8px;
+    border: 2px solid rgba(237, 104, 110, 0.5);
+    background-color: rgba(50, 0, 30, 0.3);
+    color: white;
+}
+
+.yt-input:focus {
+    outline: none;
+    box-shadow: 0 0 12px rgb(237, 104, 110);
+}
+
+.yt-submit {
+    display: none;
+}
+
+.yt-submit:hover {
+    box-shadow: 0 0 6px rgba(237, 104, 110, 0.7);
+}
+
+::-webkit-input-placeholder { /* WebKit, Blink, Edge */
+    color: white;
+}
+
+.yt-link {
+    display: block;
+    text-align: center;
+}
+
+.yt-logo {
+    width: 100px;
+    cursor: pointer;
+}
+
+#chart-container {
+    z-index: 3;
+    width: 600px;
+    height: 500px;
+    display: none;
+    position: fixed;
+    left: 50%;
+    top: 50%;
+    margin-left: -200px;
+    margin-top: -180px;
+}
+
+#genres-chart {
+    max-width: 400px;
+    max-height: 400px;
+}
+
+#legend {
+    float: right;
+    margin-top: 15%;
+}
+
+#legend ul {
+    color: white;
+    font-size: 20pt;
+}
+
+#legend ul li span {
+    width: 20px;
+    height: 20px;
+    display: inline-block;
+    border-radius: 2px;
+}
+
+#audio-ctrl {
+    display: none;
+}
+
+#audio-ctrl p {
+    color: white;
+}
+
+/*loading animation*/
+.spinner {
+    display: none;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    margin: auto;
+    text-align: center;
+    height: 90px;
+    font-size: 15px;
+}
+
+.spinner > div {
+    background-color: rgba(50, 0, 30, 0.7);
+    height: 100%;
+    width: 13px;
+    display: inline-block;
+
+    -webkit-animation: sk-stretchdelay 1.2s infinite ease-in-out;
+    animation: sk-stretchdelay 1.2s infinite ease-in-out;
+}
+
+.spinner .rect2 {
+    -webkit-animation-delay: -1.1s;
+    animation-delay: -1.1s;
+}
+
+.spinner .rect3 {
+    -webkit-animation-delay: -1.0s;
+    animation-delay: -1.0s;
+}
+
+.spinner .rect4 {
+    -webkit-animation-delay: -0.9s;
+    animation-delay: -0.9s;
+}
+
+.spinner .rect5 {
+    -webkit-animation-delay: -0.8s;
+    animation-delay: -0.8s;
+}
+
+@-webkit-keyframes sk-stretchdelay {
+    0%, 40%, 100% { -webkit-transform: scaleY(0.4) }  
+    20% { -webkit-transform: scaleY(1.0) }
+}
+
+@keyframes sk-stretchdelay {
+    0%, 40%, 100% { 
+        transform: scaleY(0.4);
+        -webkit-transform: scaleY(0.4);
+    }  20% { 
+        transform: scaleY(1.0);
+        -webkit-transform: scaleY(1.0);
+    }
+}
+
+/*page not found*/
+.cute-puppy {
+    position: absolute;
+    text-align: center;
+    top: 35%;
+    left: 0;
+    right: 0;
+}
+
+.cute-puppy img {
+    width: 400px;
+}
+
+.page-not-found {
+    text-align: center;
+    position: absolute;
+    top: 30%;
+    left: 0;
+    right: 0;
+    color: white;
+}
+
+/*error page*/
+.error {
+    color: white;
+    text-align: center;
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 30%;
+}

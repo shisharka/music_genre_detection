@@ -6,7 +6,7 @@ from helper import audio_to_melspectrogram
 
 def create_melspectrogram_dataset():
     """Creates dataset pickle file with extracted log melspectrogram features
-    and genre vectors. Dataset is extracted from audio files located
+    and genre distribution vectors. Dataset is extracted from audio files located
     in data/genres, and the pickle file path is data/melspectrogram_data.pkl"""
     x = np.zeros((TOTAL_AUDIO_FILES, default_input_shape[0], default_input_shape[1]),
                  dtype=np.float32)
@@ -25,6 +25,6 @@ def create_melspectrogram_dataset():
     with open(MELSPECTROGRAM_DATASET_PATH, 'w') as melspectrogram_dataset:
         pickle.dump({'x': x, 'y': y}, melspectrogram_dataset)
 
-
-print 'Creating mel-scaled spectrogram dataset based on raw audio data...'
-create_melspectrogram_dataset()
+if __name__ == '__main__':
+    print 'Creating mel-scaled spectrogram dataset based on raw audio data...'
+    create_melspectrogram_dataset()

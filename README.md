@@ -70,3 +70,24 @@ To train CRNN (Convolutional Recurrent Neural Network) classifier, run
 ```shell
 python train_crnn_model.py
 ```
+
+Models and weights are saved in _models/_ directory.
+
+### App server
+
+This project includes a small python app that demonstrates the CRNN classifier.
+
+If you want to enable downloading audio from YouTube, make sure you have youtube-dl and pafy libraries installed:
+
+```shell
+pip install youtube_dl==2017.5.23
+pip install pafy==0.5.3.1
+``` 
+
+Command to run demo app:
+
+```shell
+python server.py
+```
+
+Now you can access the demo app from your browser at localhost:8080.

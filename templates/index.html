@@ -1,0 +1,73 @@
+{% extends 'layout.html' %}
+{% block content %}
+<div id="upload">
+    <table>
+        <tr>
+            <td>
+                <h2>Choose a file to upload</h2>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <form name="upload-form" enctype="multipart/form-data" method="post">
+                    <div class="upload-file">
+                        <img class="upload-img" src="assets/img/upload-icon.png"/>
+                        <input class="upload-input" name="file" type="file"/>
+                    </div>
+                </form>
+            </td>
+        </tr>
+        {% if allow_yt %}
+        <tr>
+            <td>
+                <h2>
+                    or paste URL from
+                    <a href="http://www.youtube.com" target="_blank" class="yt-link">
+                        <img class="yt-logo" src="assets/img/youtube_logo.png"/>
+                    </a>
+                </h2>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <form name="yt-form" method="post" action="yt_download">
+                    <input class="yt-input" type="text" name="youtube_url" placeholder="Paste link and press enter"/>
+                    <input class="yt-submit" type="submit" name="yt-form" value="Send"/>
+                </form>
+            </td>
+        </tr>
+        {% endif %}
+    </table>
+</div>
+
+<div id="play-header" class="header">
+    <span class="play-header-btn upload-new-btn active">
+        <i class="fa fa-upload" aria-hidden="true" title="Upload another song"></i>
+    </span>
+    <span class="play-header-btn play-btn active">
+        <i class="fa fa-play" aria-hidden="true" title="Play"></i>
+        <i class="fa fa-pause" aria-hidden="true" title="Pause"></i>
+    </span>
+    <span class="play-header-btn jump-to-end-btn active"> 
+        <i class="fa fa-step-forward" aria-hidden="true" title="Jump to end"></i>
+    </span>
+</div>
+
+<div class="spinner">
+    <div class="rect1"></div>
+    <div class="rect2"></div>
+    <div class="rect3"></div>
+    <div class="rect4"></div>
+    <div class="rect5"></div>
+</div>
+
+<audio id="audio-ctrl" controls>
+    <p>
+        If you are reading this, it is because your browser does not support the audio element.
+    </p>
+</audio>
+
+<div id="chart-container">
+    <canvas id="genres-chart"></canvas>
+</div>
+{% endblock %}
