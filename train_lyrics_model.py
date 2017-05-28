@@ -1,3 +1,4 @@
+from __future__ import division
 import os
 import codecs
 import re
@@ -24,7 +25,8 @@ def create_concatenated_lyrics_files():
 
 
 def generate_model():
-    if not os.listdir(PATH_TO_LYRICS_CONCATENATED):
+    if not os.path.exists(PATH_TO_LYRICS_CONCATENATED):
+        os.makedirs(PATH_TO_LYRICS_CONCATENATED)
         create_concatenated_lyrics_files()
 
     word_frequency = defaultdict(set)
@@ -53,17 +55,17 @@ def generate_model():
 
 
 # def test():
-    # cond_prob, prior = generate_model()
-    # test_lyrics_blues = open(os.path.join(LYRICS_DATA_PATH, 'blues', 'blues.00025.txt'), 'r', encoding="utf-8").read()
-    # tokens = re.sub(punctuation_regex, "", test_lyrics_blues).lower().split(" ")
-    # score = defaultdict(dict)
-    # for genre in GENRES:
-        # score[genre] = np.log(prior[genre])
-        # for word in tokens:
-            # if (word, genre) not in cond_prob:
-                # continue
-            # score[genre] += np.log(cond_prob[word, genre])
-
-    # print(max(score, key=score.get))
-
+#     cond_prob, prior = generate_model()
+#     test_lyrics_blues = codecs.open(os.path.join(LYRICS_DATA_PATH, 'blues', 'blues.00025.txt'), 'r', "utf-8").read()
+#     tokens = re.sub(punctuation_regex, "", test_lyrics_blues).lower().split(" ")
+#     score = defaultdict(dict)
+#     for genre in GENRES:
+#         score[genre] = np.log(prior[genre])
+#         for word in tokens:
+#             if (word, genre) not in cond_prob:
+#                 continue
+#             score[genre] += np.log(cond_prob[word, genre])
+#
+#     print(max(score, key=score.get))
+#
 # test()
