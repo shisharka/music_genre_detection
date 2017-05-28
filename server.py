@@ -111,6 +111,7 @@ def play():
 
 @app.route('/uploads/<filename>')
 def uploaded_file(filename):
+    # TODO: On ocacssions, connection is being reset by peer; find a way to handle this
     return send_from_directory(UPLOADS_PATH,
                                filename)
 
