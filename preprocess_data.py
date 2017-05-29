@@ -2,7 +2,7 @@ import numpy as np
 import os
 import cPickle as pickle
 from dataset_config import *
-from helper import audio_to_melspectrogram
+from helper import audio_to_melspectrogram, default_input_shape
 
 def create_melspectrogram_dataset():
     """Creates dataset pickle file with extracted log melspectrogram features

@@ -25,16 +25,6 @@ CONV_ARGS = [{
         'kernel_size': 6,
         'filters': 256,
         'padding': 'same'
-    },
-    {
-        'kernel_size': 3,
-        'filters': 384,
-        'padding': 'same'
-    },
-    {
-        'kernel_size': 3,
-        'filters': 256,
-        'padding': 'same'
     }
 ]
 GRU_LAYER_SIZE = 128
