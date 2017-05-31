@@ -29,10 +29,10 @@ def generate_model():
         os.makedirs(PATH_TO_LYRICS_CONCATENATED)
         create_concatenated_lyrics_files()
 
-    word_frequency = defaultdict(set)
-    cond_prob = defaultdict(set)
-    sum_of_word_frequency_per_genre = defaultdict(dict)
-    prior = defaultdict(dict)
+    word_frequency = defaultdict(float)
+    cond_prob = defaultdict(float)
+    sum_of_word_frequency_per_genre = defaultdict(float)
+    prior = defaultdict(float)
 
     for file_name in os.listdir(PATH_TO_LYRICS_CONCATENATED):
         file = codecs.open(os.path.join(PATH_TO_LYRICS_CONCATENATED, file_name), 'r', 'utf-8')
@@ -46,26 +46,27 @@ def generate_model():
         for word in words:
             if (genre, word) in word_frequency:
                 continue
-            word_frequency[genre, word] = file_content.count(word)
-            sum_of_word_frequency_per_genre[genre] += word_frequency[genre, word]
+            word_frequency[(genre, word)] = file_content.count(word)
+            sum_of_word_frequency_per_genre[genre] += word_frequency[(genre, word)] + 1
         for word in words:
-            cond_prob[word, genre] = (word_frequency[genre, word] + 1) / (sum_of_word_frequency_per_genre[genre] + 1)
+            cond_prob[(word, genre)] = (word_frequency[(genre, word)] + 1) / sum_of_word_frequency_per_genre[genre]
 
     return cond_prob, prior
 
 
 # def test():
 #     cond_prob, prior = generate_model()
-#     test_lyrics_blues = codecs.open(os.path.join(LYRICS_DATA_PATH, 'blues', 'blues.00025.txt'), 'r', "utf-8").read()
-#     tokens = re.sub(punctuation_regex, "", test_lyrics_blues).lower().split(" ")
-#     score = defaultdict(dict)
+#     test_lyrics = codecs.open(os.path.join(LYRICS_DATA_PATH, 'pop', 'pop.00080.txt'), 'r', "utf-8").read()
+#     lyrics = re.sub(punctuation_regex, "", test_lyrics).lower()
+#     tokens = re.split('\s+', lyrics)
+#     score = defaultdict(float)
 #     for genre in GENRES:
 #         score[genre] = np.log(prior[genre])
 #         for word in tokens:
 #             if (word, genre) not in cond_prob:
 #                 continue
-#             score[genre] += np.log(cond_prob[word, genre])
+#             score[genre] += np.log(cond_prob[(word, genre)])
 #
-#     print(max(score, key=score.get))
+#     print(min(score, key=score.get))
 #
 # test()
