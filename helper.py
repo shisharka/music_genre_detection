@@ -1,21 +1,21 @@
 import numpy as np
-from librosa import load, feature
+from librosa import load, feature, power_to_db
 import keras.backend as K
 from dataset_config import GENRES
 
 MEL_ARGS = {
-    'n_fft': 2048,
-    'hop_length': 1024,
+    'n_fft': 1024,
+    'hop_length': 512,
     'n_mels': 128
 }
 
 # max shape from our dataset
-default_input_shape = (660, 128)
+default_input_shape = (1320, 128)
 
 
 def audio_to_melspectrogram(file_path, enforce_shape=False):
     """Loads an audio file from file_path, calculates mel-scaled power spectrogram
-    (melspectrogram), and returns melspectrogram converted to log scale and song duration"""
+    (melspectrogram), and returns the melspectrogram and song duration"""
     input_track, sample_rate = load(file_path, mono = True)
     features = feature.melspectrogram(input_track, sample_rate, **MEL_ARGS).T
 
@@ -27,7 +27,7 @@ def audio_to_melspectrogram(file_path, enforce_shape=False):
 
     features[features == 0] = 10**-6 # because of log scaling
 
-    return np.log(features), input_track.shape[0] * 1.0 / sample_rate
+    return power_to_db(features), input_track.shape[0] * 1.0 / sample_rate
 
 
 def get_layer_output_function(model, layer_index):

@@ -28,17 +28,17 @@ def progress(count, block_size, total_size):
 
 
 def download(url, filename):
-    print 'Downloading audio files from {}...'.format(url)
+    print('Downloading audio files from {}...'.format(url))
     progress_bar.start()
     urlretrieve(url, filename, reporthook=progress)
     progress_bar.finish()
 
 
 def extract(compressed_filename, destination_path):
-    print 'Extracting files from {}...'.format(compressed_filename)
+    print('Extracting files from {}...'.format(compressed_filename))
     tar = tarfile.open(compressed_filename)
     tar.extractall(destination_path)
-    print 'Removing {}...'.format(compressed_filename)
+    print('Removing {}...'.format(compressed_filename))
     os.remove(compressed_filename)
 
 if __name__ == '__main__':
@@ -46,7 +46,7 @@ if __name__ == '__main__':
     download(audio_url, audio_filename)
     extract(audio_filename, AUDIO_DATA_PATH)
 
-    print 'Removing jazz and classical directories...'
+    print('Removing jazz and classical directories...')
     remove_dir(AUDIO_DATA_PATH + '/jazz')
     remove_dir(AUDIO_DATA_PATH + '/classical')
 
