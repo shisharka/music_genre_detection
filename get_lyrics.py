@@ -3,6 +3,7 @@ from urllib import urlopen
 from bs4 import BeautifulSoup
 import json
 import codecs
+import sys
 
 
 def azlyrics_url(artist, song_title):
@@ -54,7 +55,7 @@ def parse_lyrics(url, selector='div', selector_class=None, selector_id=None):
 
         return "\n".join(lyrics).strip()
     except Exception as e:
-        print 'Exception occurred: ' + str(e)
+        print('Exception occurred: ' + str(e))
 
         return None
 
@@ -69,24 +70,11 @@ def get_lyrics(artist, song_title):
 
     return azlyrics or metrolyrics or oldielyrics
 
-
-# def test():
-#     a = []
-#     with open('unknown_lyrics.txt') as file:
-#         arr_content = file.readlines()
-#         for eachline in arr_content:
-#             a.append(eachline.strip())
-
-#     with open('metadata.json') as metadata_file:
-#         metadatas = json.load(metadata_file)
-
-#         for filename, metadata in metadatas.items():
-#             if (filename in a):
-#                 track = filename[:-3]
-#                 path = 'data/lyrics/' + track + '.txt'
-#                 lyrics = get_lyrics(metadata['artist'], metadata['title'])
-#                 if not lyrics:
-#                     print(filename + '------>' + metadata['title'] + ' by ' + metadata['artist'])
-#                 else:
-#                     with codecs.open(path, 'w', 'utf-8') as lyrics_file:
-#                         lyrics_file.write(lyrics)
+if __name__ == '__main__':
+    if len(sys.argv) < 3:
+        print('Please specify artist and song title')
+    else:
+        artist = sys.argv[1]
+        song_title = sys.argv[2]
+        lyrics = get_lyrics(artist, song_title)
+        print(lyrics)

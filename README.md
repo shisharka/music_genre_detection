@@ -71,7 +71,13 @@ To train CRNN (Convolutional Recurrent Neural Network) classifier, run
 python train_crnn_model.py
 ```
 
-Models and weights are saved in _models/_ directory.
+Model and weights are saved in _models/_ directory.
+
+To train Naive Bayes classifier, run
+
+```shell
+python train_lyrics_model.py
+```
 
 ### App server
 
@@ -91,3 +97,5 @@ python server.py
 ```
 
 Now you can access the demo app from your browser at localhost:8080.
+
+There are some example songs on _/examples_

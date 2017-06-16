@@ -1,0 +1,63 @@
+{% extends 'layout.html' %}
+{% block content %}
+<div class="centered">
+    <table id="examples-table">
+        <tr>
+            <td>
+                <h2 id="example1">Rihanna - Man Down</h2>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <h2 id="example2">Ray Charles - I've Got A Woman</h2>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <h2 id="example3">Blake Shelton - Who Are You When I'm Not Looking</h2>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <h2 id="example4">The Smiths - There Is A Light That Never Goes Out</h2>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <h2 id="example5">ABBA - Gimme Gimme Gimme</h2>
+            </td>
+        </tr>
+    </table>
+</div>
+
+<div id="play-header" class="header">
+    <span class="play-header-btn upload-new-btn active">
+        <i class="fa fa-upload" aria-hidden="true" title="Upload another song"></i>
+    </span>
+    <span class="play-header-btn play-btn active">
+        <i class="fa fa-play" aria-hidden="true" title="Play"></i>
+        <i class="fa fa-pause" aria-hidden="true" title="Pause"></i>
+    </span>
+    <span class="play-header-btn jump-to-end-btn active"> 
+        <i class="fa fa-step-forward" aria-hidden="true" title="Jump to end"></i>
+    </span>
+</div>
+
+<div class="spinner">
+    <div class="rect1"></div>
+    <div class="rect2"></div>
+    <div class="rect3"></div>
+    <div class="rect4"></div>
+    <div class="rect5"></div>
+</div>
+
+<audio id="audio-ctrl" controls>
+    <p>
+        If you are reading this, it is because your browser does not support the audio element.
+    </p>
+</audio>
+
+<div id="chart-container">
+    <canvas id="genres-chart"></canvas>
+</div>
+{% endblock %}

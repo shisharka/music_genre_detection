@@ -10,10 +10,10 @@ class GenreDetector():
         model.load_weights(weights_path)
         self.pred_fun_realtime = get_layer_output_function(model, -2)
         self.pred_fun_merged = get_layer_output_function(model, -1)
-        print 'Loaded model.'
+        print('Loaded model.')
 
     def detect_realtime(self, track_path):
-        print 'Loading song', track_path
+        print('Loading song', track_path)
         (features, duration) = audio_to_melspectrogram(track_path)
         self.features = np.reshape(features, (1, ) + features.shape)
         return self.pred_fun_realtime(self.features)[0], duration

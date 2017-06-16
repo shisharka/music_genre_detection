@@ -37,18 +37,18 @@ var GLOBAL = {
     }
 };
 
-var chart;
+var chart, $audio, distributions;
 
 function lowerBound(array, element) {
     var begin = 0;
-    var end = array.length;
+    var end = array.length - 1;
     while(begin < end) {
         var m = Math.floor((begin + end) / 2);
 
         if(array[m][0] == element) return m;
 
         if(array[m][0] > element)
-            end = m;
+            end = m - 1;
         else
             begin = m + 1;
     }
@@ -131,3 +131,48 @@ function drawChart(canvasId, distribution, currentTime) {
 
     updateChart();
 }
+
+function showChart(end = false) {
+    drawChart('genres-chart', distributions, function() {
+        if (end) {
+            $audio[0].currentTime = $audio[0].duration;
+            $audio[0].pause();
+            return $audio[0].duration;
+        }
+        else
+            return $audio[0].currentTime;
+    });
+    $('#chart-container').show();
+}
+
+function togglePlay() {
+    if (!$audio) return;
+
+    if ($audio[0].paused) {
+        $audio[0].play();
+        $('.play-btn .fa-play').hide();
+        $('.play-btn .fa-pause').show();
+    }
+    else {
+        $audio[0].pause();
+        $('.play-btn .fa-pause').hide();
+        $('.play-btn .fa-play').show();
+    }
+}
+
+// header button events
+$(document).on('click', '.play-btn.active', function() {
+    togglePlay($audio);
+});
+
+$(document).on('click', '.upload-new-btn', function() {
+    window.location = '/';
+});
+
+$(document).on('click', '.jump-to-end-btn.active', function() {
+    if (!$audio) return;
+
+    showChart(true);
+    $('.jump-to-end-btn').removeClass('active');
+    $('.play-btn').removeClass('active');
+});

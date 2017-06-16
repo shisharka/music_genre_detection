@@ -5,7 +5,7 @@ import json
 import numpy as np
 from genre_detector import GenreDetector
 from helper import get_genre_distribution_over_time
-# allow YouTube download if necessary lybraries are present
+# allow YouTube download if necessary libraries are present
 import imp
 try:
     imp.find_module('pafy')
@@ -17,6 +17,7 @@ if allow_yt:
     import pafy
 
 UPLOADS_PATH = 'uploads'
+EXAMPLES_PATH = 'examples'
 ALLOWED_EXTENSIONS = set(['mp3', 'wav', 'webm', 'ogg'])
 MODEL_PATH = 'models/crnn_model.yaml'
 WEIGHTS_PATH = 'models/crnn_weights.h5'
@@ -111,8 +112,20 @@ def play():
 
 @app.route('/uploads/<filename>')
 def uploaded_file(filename):
-    # TODO: On ocacssions, connection is being reset by peer; find a way to handle this
+    # TODO: On ocacssions, connection is being reset by peer;
+    # find a way to handle this
     return send_from_directory(UPLOADS_PATH,
+                               filename)
+
+
+@app.route('/examples', methods=['GET'])
+def examples():
+    return render_template('examples.html')
+
+
+@app.route('/examples/<filename>')
+def example(filename):
+    return send_from_directory(EXAMPLES_PATH,
                                filename)
 
 

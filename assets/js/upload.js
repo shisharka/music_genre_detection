@@ -1,7 +1,7 @@
 'use strict';
 
 (function() {
-    var distributions, songPath, $audio;
+    var songPath;
 
     function sendForm($form, url) {
         $.ajax({
@@ -25,7 +25,7 @@
                 // source song
                 songPath = 'uploads/' + response.filename
                 $audio = $('audio');
-                $audio[0].src = songPath
+                $audio[0].src = songPath;
                 // uncomment next line for autoplay
                 // togglePlay($audio)
                 // warning: autoplay is buggy, causes an error in Chrome occassionally
@@ -52,34 +52,6 @@
         });
     }
 
-    function showChart(end = false) {
-        drawChart('genres-chart', distributions, function() {
-            if (end) {
-                $audio[0].currentTime = $audio[0].duration;
-                $audio[0].pause();
-                return $audio[0].duration;
-            }
-            else
-                return $audio[0].currentTime;
-        });
-        $('#chart-container').show();
-    }
-
-    function togglePlay() {
-        if (!$audio) return;
-
-        if ($audio[0].paused) {
-            $audio[0].play();
-            $('.play-btn .fa-play').hide();
-            $('.play-btn .fa-pause').show();
-        }
-        else {
-            $audio[0].pause();
-            $('.play-btn .fa-pause').hide();
-            $('.play-btn .fa-play').show();
-        }
-    }
-
     // upload forms submission
     $(document).on('submit','form[name=upload-form]',function(e){
         e.preventDefault();
@@ -92,22 +64,5 @@
     $(document).on('submit','form[name=yt-form]',function(e){
         e.preventDefault();
         sendForm($('form[name=yt-form]')[0], '/yt_download');
-    });
-
-    // header button events
-    $(document).on('click', '.play-btn.active', function() {
-        togglePlay($audio);
-    });
-
-    $(document).on('click', '.upload-new-btn', function() {
-        window.location = '/';
-    });
-
-    $(document).on('click', '.jump-to-end-btn.active', function() {
-        if (!$audio) return;
-
-        showChart(true);
-        $('.jump-to-end-btn').removeClass('active');
-        $('.play-btn').removeClass('active');
     });
 })();
