@@ -99,3 +99,7 @@ python server.py
 Now you can access the demo app from your browser at localhost:8080.
 
 There are some example songs on _/examples_
+
+### Presentation
+English: https://docs.google.com/presentation/d/1HUuCpDaassL3Gv5E0909chKlsM4lW4hI-D0pcd43uy8/edit?usp=sharing
+Serbian: https://docs.google.com/presentation/d/1T7h60enALTi2MvlT5r0MIeifv8tQiTAlrOHrlZa7wxk/edit?usp=sharing
