@@ -107,8 +107,8 @@ There are some example songs at _/examples_
 
    Usage:
   ```shell
-  python melspectrogam.py path_to_audio_file
-  python lbr_melspectrogam.py path_to_audio_file
+  python melspectrogam.py path/to/audio/file
+  python lbr_melspectrogam.py path/to/audio/file
   ```
 
   * get_lyrics.py - [azlyrics](http://azlyrics.com/lyrics), [metrolyrics](http://www.metrolyrics.com) and [oldielyrics](http://www.oldielyrics.com) crawler
