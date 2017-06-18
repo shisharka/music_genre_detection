@@ -102,21 +102,21 @@ There are some example songs at _/examples_
 
 ### Scripts
 
--- melspectrogram.py - generates mel-scaled log-power spectrogram
--- lbr_melspectrogram.py - generates mel-scaled log-power spectrogram using librosa lib
+  * melspectrogram.py - generates mel-scaled log-power spectrogram
+  * lbr_melspectrogram.py - generates mel-scaled log-power spectrogram using librosa lib
 
-Usage:
-```shell
-python melspectrogam.py path_to_audio_file
-python lbr_melspectrogam.py path_to_audio_file
-```
+   Usage:
+  ```shell
+  python melspectrogam.py path_to_audio_file
+  python lbr_melspectrogam.py path_to_audio_file
+  ```
 
--- get_lyrics.py - [azlyrics](http://azlyrics.com/lyrics), [metrolyrics](http://www.metrolyrics.com) and [oldielyrics](http://www.oldielyrics.com) crawler
+  * get_lyrics.py - [azlyrics](http://azlyrics.com/lyrics), [metrolyrics](http://www.metrolyrics.com) and [oldielyrics](http://www.oldielyrics.com) crawler
 
-Usage:
-```shell
-python get_lyrics.py 'The Smiths' 'Handsome Devil'  
-```
+  Usage:
+  ```shell
+  python get_lyrics.py 'The Smiths' 'Handsome Devil'  
+  ```
 
 ### Presentation
 English: https://docs.google.com/presentation/d/1HUuCpDaassL3Gv5E0909chKlsM4lW4hI-D0pcd43uy8/edit?usp=sharing
