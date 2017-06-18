@@ -3,23 +3,18 @@ import os
 import codecs
 import sys
 from collections import defaultdict
+import re
 import yaml
 from yaml.representer import Representer
 yaml.add_representer(defaultdict, Representer.represent_dict)
 import numpy as np
-<<<<<<< HEAD
 from sklearn import model_selection
+from sklearn.feature_extraction.text import CountVectorizer
+from dataset_config import *
 
 songs_per_genre = {'blues': 64, 'country': 95, 'disco': 86, 'hiphop': 96, 'metal': 85, 'pop': 99, 'reggae': 80, 'rock': 100}
 number_of_songs = TOTAL_LYRICS_FILES
 punctuation_regex = re.compile("[;.,\"()?!/]")
-word_frequency = defaultdict(float)
-cond_prob = defaultdict(float)
-sum_of_word_frequency_per_genre = defaultdict(float)
-=======
-from sklearn.feature_extraction.text import CountVectorizer
-from dataset_config import *
->>>>>>> master
 
 
 def train_model():
@@ -32,7 +27,6 @@ def train_model():
         print('Couldn\'t find preprocessed data, please run preprocess_data.py')
         return
 
-    prior = defaultdict(float)
     for file_name in os.listdir(LYRICS_CONCATENATED_DATA_PATH):
         file = codecs.open(os.path.join(LYRICS_CONCATENATED_DATA_PATH, file_name), 'r', 'utf-8')
         file_content = file.read().lower()
@@ -69,11 +63,15 @@ def create_concatenated_lyrics_by_genre_test(train_data):
 
 
 def train_model_test(test_size):
+    word_frequency = defaultdict(float)
+    cond_prob = defaultdict(float)
+    sum_of_word_frequency_per_genre = defaultdict(float)
+    prior = defaultdict(float)
+
     if not os.path.exists(LYRICS_CONCATENATED_DATA_TEST_PATH):
         print('There are no files needed to train test model.')
         return
 
-    prior = defaultdict(float)
     for file_name in os.listdir(LYRICS_CONCATENATED_DATA_TEST_PATH):
         file = codecs.open(os.path.join(LYRICS_CONCATENATED_DATA_TEST_PATH, file_name), 'r', 'utf-8')
         file_content = file.read().lower()
@@ -144,6 +142,7 @@ def calculate_accuracy():
             if min(score, key=score.get) == genre:
                 accuracy_map[genre] += 1
 
+        print("Accuracy by genre: ")
         print(genre, accuracy_map[genre], len(test_data))
 
 if __name__ == '__main__':
