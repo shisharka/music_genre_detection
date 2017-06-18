@@ -7,6 +7,7 @@ AUDIO_FILES_PER_GENRE = 100
 MELSPECTROGRAM_DATASET_PATH = 'data/melspectrogram_data.pkl'
 
 LYRICS_CONCATENATED_DATA_PATH = 'data/lyrics_concatenated'
+LYRICS_CONCATENATED_DATA_TEST_PATH = 'data/lyrics_concatenated_test'
 LYRICS_DATA_PATH = 'data/lyrics'
 TOTAL_LYRICS_FILES = 707
 BLUES_LYRICS_FILES = 65
