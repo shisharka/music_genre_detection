@@ -1,6 +1,6 @@
 # Music Genre Detection Project
 
-Automatic music genre classifier
+Automatic music genre classifiers
 
 ## Usage
 
@@ -42,10 +42,10 @@ pip install -r requirements.txt
 
 ### Dataset
 
-For training and testing our classifier we use [GTZAN music genre collection](http://marsyasweb.appspot.com/download/data_sets/), 
+For training and testing our classifiers we use [GTZAN music genre collection](http://marsyasweb.appspot.com/download/data_sets/), 
 but we are restricted
-to a subset which is not including classical and jazz genres, because our classifier
-also depends on lyrics, and classical and jazz music representatives are mostly instrumentals.
+to a subset which is not including classical and jazz genres, because one of our classifiers
+depends on lyrics, and classical and jazz music representatives are mostly instrumentals.
 To download raw data, run
 
 ```shell
@@ -71,13 +71,13 @@ To train CRNN (Convolutional Recurrent Neural Network) classifier, run
 python train_crnn_model.py
 ```
 
-Model and weights are saved in _models/_ directory.
-
 To train Naive Bayes classifier, run
 
 ```shell
-python train_lyrics_model.py
+python train_naive_bayes_model.py
 ```
+
+Models and weights are saved in _models/_ directory.
 
 ### App server
 
@@ -116,6 +116,19 @@ There are some example songs at _/examples_
   Usage:
   ```shell
   python get_lyrics.py 'The Smiths' 'Handsome Devil'  
+  ```
+
+  * nb_predict.py - uses Naive Bayes model to predict song genre
+
+  Usage:
+  ```shell
+  python nb_predict.py path/to/lyrics/file 
+  ```
+
+  or
+
+  ```shell
+  python nb_predict.py 'The Smiths' 'Handsome Devil'  
   ```
 
 ## Presentation
