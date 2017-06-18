@@ -16,7 +16,7 @@ default_input_shape = (1320, 128)
 def audio_to_melspectrogram(file_path, enforce_shape=False):
     """Loads an audio file from file_path, calculates mel-scaled power spectrogram
     (melspectrogram), and returns the melspectrogram and song duration"""
-    input_track, sample_rate = load(file_path, mono = True)
+    input_track, sample_rate = load(file_path, mono=True)
     features = feature.melspectrogram(input_track, sample_rate, **MEL_ARGS).T
 
     if enforce_shape:
