@@ -32,6 +32,7 @@ def create_concatenated_lyrics_files():
     """Creates a file for each genre by concatenating lyrics for all songs of the same genre.
     Lyrics are located in data/lyrics, and concatenated lyrics files are located
     in data/lyrics_concatenated."""
+    os.mkdir(LYRICS_CONCATENATED_DATA_PATH)
     for dirname, dirnames, filenames in os.walk(LYRICS_DATA_PATH):
         for genre in dirnames:
             genre_file = codecs.open(os.path.join(LYRICS_CONCATENATED_DATA_PATH, genre + ".txt"), 'w', "utf-8")

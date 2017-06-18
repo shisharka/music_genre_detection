@@ -3,7 +3,6 @@ import os
 import codecs
 import re
 import sys
-import json
 from dataset_config import *
 from get_lyrics import get_lyrics
 from collections import defaultdict
@@ -59,7 +58,7 @@ if __name__ == '__main__':
         song_title = sys.argv[2]
         lyrics = get_lyrics(artist, song_title)
 
-        if lyrics is None:
+        if len(lyrics) == 0:
             print('We couldn\'t find song you specified.')
             sys.exit()
 
@@ -67,7 +66,11 @@ if __name__ == '__main__':
         print('Please specify path to a lyrics file or artist with song title to download lyrics.')
         sys.exit()
 
-    cond_prob, prior = train_model()
+    model = train_model()
+    if len(model) == 0:
+        sys.exit()
+
+    cond_prob, prior = model
     lyrics = re.sub(punctuation_regex, "", lyrics).lower()
     words = re.split('\s+', lyrics)
     score = defaultdict(float)
@@ -78,7 +81,4 @@ if __name__ == '__main__':
                 continue
             score[genre] += np.log(cond_prob[(word, genre)])
 
-    print('Probability distribution by genre: ' + json.dumps(score))
     print('Most probable genre: ' + min(score, key=score.get))
-
-
