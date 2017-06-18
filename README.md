@@ -98,4 +98,26 @@ python server.py
 
 Now you can access the demo app from your browser at localhost:8080.
 
-There are some example songs on _/examples_
+There are some example songs at _/examples_
+
+### Scripts
+
+  * melspectrogram.py - generates mel-scaled log-power spectrogram
+  * lbr_melspectrogram.py - generates mel-scaled log-power spectrogram using librosa lib
+
+   Usage:
+  ```shell
+  python melspectrogam.py path/to/audio/file
+  python lbr_melspectrogam.py path/to/audio/file
+  ```
+
+  * get_lyrics.py - [azlyrics](http://azlyrics.com/lyrics), [metrolyrics](http://www.metrolyrics.com) and [oldielyrics](http://www.oldielyrics.com) crawler
+
+  Usage:
+  ```shell
+  python get_lyrics.py 'The Smiths' 'Handsome Devil'  
+  ```
+
+## Presentation
+  * English: https://docs.google.com/presentation/d/1HUuCpDaassL3Gv5E0909chKlsM4lW4hI-D0pcd43uy8/edit?usp=sharing
+  * Serbian: https://docs.google.com/presentation/d/1T7h60enALTi2MvlT5r0MIeifv8tQiTAlrOHrlZa7wxk/edit?usp=sharing
