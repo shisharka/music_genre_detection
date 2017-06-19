@@ -1,11 +1,8 @@
-from __future__ import division
 import sys
-from collections import defaultdict
-import numpy as np
-from sklearn.feature_extraction.text import CountVectorizer
 import yaml
-from dataset_config import GENRES
 from get_lyrics import get_lyrics
+from train_naive_bayes_model import predict
+
 
 if __name__ == '__main__':
     print('Loading model...')
@@ -42,14 +39,6 @@ if __name__ == '__main__':
         print('Please specify path to a lyrics file or artist with song title to download lyrics.')
         sys.exit()
 
-    lyrics = lyrics.lower()
-    words = CountVectorizer().build_tokenizer()(lyrics)
-    score = defaultdict(float)
-    for genre in GENRES:
-        score[genre] = np.log(prior[genre])
-        for word in words:
-            if (word, genre) not in cond_prob:
-                continue
-            score[genre] += np.log(cond_prob[(word, genre)])
+    score = predict(cond_prob, prior, lyrics)
 
     print('Most probable genre: ' + min(score, key=score.get))

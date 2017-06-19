@@ -16,6 +16,4 @@ LYRICS_FILES_PER_GENRE = {'blues': 64,
                           'pop': 99,
                           'reggae': 80,
                           'rock': 100}
-
-LYRICS_CONCATENATED_DATA_PATH = 'data/lyrics_concatenated'
-LYRICS_CONCATENATED_DATA_TEST_PATH = 'data/lyrics_concatenated_test'
+LYRICS_CONCATENATED_TRAIN_PATH = 'data/lyrics_concatenated_train'
