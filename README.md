@@ -6,7 +6,7 @@ Automatic music genre classifiers
 
 ### Installing prerequisites
 
-The project is built on python2.7
+The project is built in python2.7
 
 #### Conda install
 
