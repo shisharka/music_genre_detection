@@ -5,4 +5,4 @@ librosa==0.5.1
 beautifulsoup4==4.6.0
 h5py==2.7.0
 progressbar==2.3
-flask==0.12.2
+flask==1.0
